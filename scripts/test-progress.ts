@@ -44,7 +44,7 @@ test('initial progress is empty and never fabricated', () => {
 
   const overall = service.getOverallProgress()
   assert.equal(overall.totalLessons, 67)
-  assert.equal(overall.publishedLessons, 1)
+  assert.equal(overall.publishedLessons, 3)
   assert.equal(overall.completedLessons, 0)
   assert.equal(overall.inProgressLessons, 0)
   assert.equal(overall.completionPercent, 0)
@@ -148,18 +148,60 @@ test('domain progress is calculated from completed lesson ids', () => {
   assert.equal(service.getDomainProgressSummaries().length, 8)
 })
 
-test('invalid lesson and quiz ids never create progress records', () => {
+test('second published lesson is tracked independently of the first lesson', () => {
   const { service } = makeService()
   service.startLesson('lesson-1-2')
+
+  assert.equal(service.getLessonProgress('lesson-1-2')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-1-2'])
+
+  service.completeLesson('lesson-1-2')
+  assert.equal(service.getLessonProgress('lesson-1-2')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+})
+
+test('third published lesson is tracked independently of both earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-1-3')
+
+  assert.equal(service.getLessonProgress('lesson-1-3')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-1-3'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-1-3',
+    lessonId: 'lesson-1-3',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 90,
+  })
+  assert.equal(service.getLessonProgress('lesson-1-3')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-1-3')?.passed, true)
+  assert.equal(service.getQuizProgress('quiz-1-2'), undefined)
+
+  service.completeLesson('lesson-1-3')
+  assert.equal(service.getLessonProgress('lesson-1-3')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+})
+
+test('invalid lesson and quiz ids never create progress records', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-9-9')
   service.startLesson('unknown-lesson')
   service.completeLesson('unknown-lesson')
 
-  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-9-9'), undefined)
   assert.equal(service.getLessonProgress('unknown-lesson'), undefined)
 
   const mismatched = service.saveQuizAttempt({
     ...validAttempt(100, true),
-    lessonId: 'lesson-1-2',
+    lessonId: 'lesson-9-9',
   })
   assert.equal(mismatched, undefined)
   assert.equal(service.getQuizProgress('quiz-1-1'), undefined)
@@ -217,7 +259,7 @@ test('resetting progress clears stored data and unnecessary writes are skipped',
   service.startLesson('lesson-1-1')
   assert.equal(storage.writeCount, 1)
 
-  service.startLesson('lesson-1-2')
+  service.startLesson('unknown-lesson')
   assert.equal(storage.saveCalls, 1)
 
   service.saveQuizAttempt(validAttempt(100, true))

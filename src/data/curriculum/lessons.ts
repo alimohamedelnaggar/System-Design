@@ -115,13 +115,210 @@ const whatIsSystemDesign: Lesson = {
   },
 }
 
-/** One lesson per approved module topic; only Domain 01 / Module 1.1 has content yet. */
+const clientServerArchitecture: Lesson = {
+  id: 'lesson-1-2',
+  moduleId: 'module-1-2',
+  slug: 'requirements-and-constraints',
+  number: 1,
+  title: 'Client-Server Architecture',
+  description:
+    'Learn how clients and servers exchange requests and responses, how HTTP requests travel through an application, and how two-tier and three-tier designs distribute responsibilities.',
+  estimatedMinutes: 45,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-1-2-1',
+      text: 'Define a client and identify at least two responsibilities it performs in a request.',
+    },
+    {
+      id: 'objective-1-2-2',
+      text: 'Define a server and identify at least two responsibilities it performs when handling a request.',
+    },
+    {
+      id: 'objective-1-2-3',
+      text: 'Describe client-server architecture by naming the separation of client and server responsibilities and the network boundary between them.',
+    },
+    {
+      id: 'objective-1-2-4',
+      text: 'Explain the request-response model by ordering the eight stages from user action to displayed result.',
+    },
+    {
+      id: 'objective-1-2-5',
+      text: 'Classify a listed action as a client responsibility or a server responsibility with a reason.',
+    },
+    {
+      id: 'objective-1-2-6',
+      text: 'Trace an HTTP product request through method, URL, headers, body, status code and client handling.',
+    },
+    {
+      id: 'objective-1-2-7',
+      text: 'Distinguish stateless communication from stateful communication using a concrete request example.',
+    },
+    {
+      id: 'objective-1-2-8',
+      text: 'Explain why separating presentation, application logic and data storage improves maintainability.',
+    },
+    {
+      id: 'objective-1-2-9',
+      text: 'Compare two-tier and three-tier architecture across responsibility distribution, database access and complexity.',
+    },
+    {
+      id: 'objective-1-2-10',
+      text: 'State one benefit and one limitation of adding an application tier to a product catalog.',
+    },
+    {
+      id: 'objective-1-2-11',
+      text: 'Follow a View Product request through browser, network, API, application logic, database and response, including one failure outcome.',
+    },
+    {
+      id: 'objective-1-2-12',
+      text: 'Identify a common client-server mistake and propose a better design reasoning for it.',
+    },
+  ],
+  sectionIds: [
+    'section-1-2-1',
+    'section-1-2-2',
+    'section-1-2-3',
+    'section-1-2-4',
+    'section-1-2-5',
+    'section-1-2-6',
+    'section-1-2-7',
+    'section-1-2-8',
+    'section-1-2-9',
+    'section-1-2-10',
+    'section-1-2-11',
+    'section-1-2-12',
+    'section-1-2-13',
+  ],
+  diagramIds: [
+    'diagram-1-2-basic-client-server',
+    'diagram-1-2-request-lifecycle',
+    'diagram-1-2-two-tier',
+    'diagram-1-2-three-tier',
+  ],
+  codeExampleIds: [
+    'code-1-2-http-get-request',
+    'code-1-2-csharp-api-endpoint',
+    'code-1-2-fetch-client-request',
+  ],
+  comparisonIds: [
+    'comparison-1-2-stateless-vs-stateful',
+    'comparison-1-2-two-tier-vs-three-tier',
+  ],
+  quizId: 'quiz-1-2',
+  practicalChallengeId: 'challenge-1-2',
+  summaryId: 'summary-1-2',
+  metadata: {
+    simulationSlug: 'client-server-request-flow',
+  },
+}
+
+const webFundamentals: Lesson = {
+  id: 'lesson-1-3',
+  moduleId: 'module-1-3',
+  slug: 'core-building-blocks',
+  number: 1,
+  title: 'Web Fundamentals',
+  description:
+    'Follow a browser request from URL parsing and DNS resolution through TCP, TLS and HTTP to the server response, and understand the performance and security implications of each stage.',
+  estimatedMinutes: 50,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-1-3-1',
+      text: 'Explain how a browser and a web server communicate using a request and a response.',
+    },
+    {
+      id: 'objective-1-3-2',
+      text: 'State the purpose of HTTP and identify it as a stateless, application-layer request-response protocol.',
+    },
+    {
+      id: 'objective-1-3-3',
+      text: 'Identify the request line, method, request target, HTTP version, headers and optional body in a sample HTTP request.',
+    },
+    {
+      id: 'objective-1-3-4',
+      text: 'Identify the status line, HTTP version, status code, headers and body in a sample HTTP response.',
+    },
+    {
+      id: 'objective-1-3-5',
+      text: 'Explain what HTTPS adds to HTTP and name the confidentiality, integrity and authentication benefits it provides.',
+    },
+    {
+      id: 'objective-1-3-6',
+      text: 'Explain what DNS does and why a domain name must be resolved before a connection can be made.',
+    },
+    {
+      id: 'objective-1-3-7',
+      text: 'Describe how a domain name is resolved through caches, a recursive resolver, root, TLD and authoritative servers, including the effect of caching.',
+    },
+    {
+      id: 'objective-1-3-8',
+      text: 'Explain the purpose of TLS and describe a high-level TLS handshake without relying on version-specific steps.',
+    },
+    {
+      id: 'objective-1-3-9',
+      text: 'Describe the TCP three-way handshake and state what a transport connection provides.',
+    },
+    {
+      id: 'objective-1-3-10',
+      text: 'Order the stages of a complete browser-to-server HTTPS request from URL entry to rendered response.',
+    },
+    {
+      id: 'objective-1-3-11',
+      text: 'Explain at least two performance implications of DNS lookup, connection setup, TLS negotiation and caching in a web request.',
+    },
+    {
+      id: 'objective-1-3-12',
+      text: 'Correct at least two common misconceptions about DNS, HTTPS, TCP or TLS with an accurate mental model.',
+    },
+  ],
+  sectionIds: [
+    'section-1-3-1',
+    'section-1-3-2',
+    'section-1-3-3',
+    'section-1-3-4',
+    'section-1-3-5',
+    'section-1-3-6',
+    'section-1-3-7',
+    'section-1-3-8',
+    'section-1-3-9',
+    'section-1-3-10',
+    'section-1-3-11',
+    'section-1-3-12',
+    'section-1-3-13',
+    'section-1-3-14',
+  ],
+  diagramIds: [
+    'diagram-1-3-url-anatomy',
+    'diagram-1-3-dns-resolution',
+    'diagram-1-3-tcp-handshake',
+    'diagram-1-3-https-lifecycle',
+  ],
+  codeExampleIds: [
+    'code-1-3-raw-http',
+    'code-1-3-fetch-request',
+    'code-1-3-aspnet-endpoint',
+  ],
+  comparisonIds: [
+    'comparison-1-3-http-vs-https',
+    'comparison-1-3-domain-vs-ip',
+  ],
+  quizId: 'quiz-1-3',
+  practicalChallengeId: 'challenge-1-3',
+  summaryId: 'summary-1-3',
+}
+
+/** One lesson per approved module topic; Domain 01 / Modules 1.1 to 1.3 have content. */
 export const lessons: Lesson[] = [
   whatIsSystemDesign,
+  clientServerArchitecture,
+  webFundamentals,
 
   // Domain 01 — System Design Fundamentals
-  plannedLesson('module-1-2', 'requirements-and-constraints', 'Requirements and Constraints', 'Turn a vague request into explicit functional and non-functional requirements.'),
-  plannedLesson('module-1-3', 'core-building-blocks', 'Core Building Blocks', 'Recognise the clients, services, caches, queues and stores that make up most systems.'),
+
   plannedLesson('module-1-4', 'trade-offs-and-design-decisions', 'Trade-offs and Design Decisions', 'Explain why every design choice gives up something in exchange for something else.'),
   plannedLesson('module-1-5', 'sketching-your-first-design', 'Sketching Your First Design', 'Turn requirements and building blocks into a first, defensible architecture sketch.'),
   plannedLesson('module-1-6', 'back-of-the-envelope-scale-estimation', 'Back-of-the-Envelope Scale Estimation', 'Use rough numbers for users, traffic and storage to size a design before committing to it.'),
