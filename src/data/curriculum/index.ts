@@ -1,0 +1,12 @@
+/** Canonical curriculum API. Import from here for new code. */
+export * from './blueprint.ts'
+export * from './domains.ts'
+export * from './lessons.ts'
+export * from './modules.ts'
+export * from './journey.ts'
+export * from './lessonContent.ts'
+export * from './quizzes.ts'
+export * from './quizStandards.ts'
+export * from './diagrams.ts'
+export * from './lookup.ts'
+export * from './validation.ts'

@@ -1,0 +1,35 @@
+.simulation-node-rect {
+  transition:
+    stroke 180ms ease,
+    fill 180ms ease;
+}
+
+.simulation-flow {
+  stroke-dasharray: 7 9;
+  animation: simulation-flow 900ms linear infinite;
+}
+
+.simulation-node-pulse {
+  filter: drop-shadow(0 0 7px rgb(96 165 250 / 55%));
+}
+
+@keyframes simulation-flow {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .simulation-flow {
+    animation: none;
+    stroke-dasharray: none;
+  }
+
+  .simulation-node-rect {
+    transition: none;
+  }
+
+  .simulation-node-pulse {
+    filter: none;
+  }
+}

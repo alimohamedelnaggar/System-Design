@@ -1,0 +1,92 @@
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(59 130 246 / 35%);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-bright);
+    outline-offset: 3px;
+  }
+
+  /* React Flow is decorative here; keep its chrome quiet. */
+  .react-flow__attribution {
+    background: transparent !important;
+    font-size: 9px;
+  }
+
+  .react-flow__attribution a {
+    color: var(--color-ink-subtle) !important;
+    opacity: 0.7;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background-image: linear-gradient(100deg, #f1f6ff 10%, #9dc2ff 55%, #6ea8ff 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgb(34 48 74 / 55%) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(34 48 74 / 55%) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .card-shell {
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-card);
+    background-color: var(--color-surface-card);
+    box-shadow: var(--shadow-card);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
