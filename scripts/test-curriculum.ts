@@ -106,7 +106,7 @@ test('module and lesson counts agree for every domain', () => {
   }
 })
 
-test('fourteen published lessons remain and all other lessons are planned', () => {
+test('sixteen published lessons remain and all other lessons are planned', () => {
   const published = lessons.filter((lesson) => lesson.status === 'published')
   const planned = lessons.filter((lesson) => lesson.status === 'planned')
   assert.equal(published.length, BLUEPRINT_PUBLISHED_LESSONS)
@@ -126,6 +126,8 @@ test('fourteen published lessons remain and all other lessons are planned', () =
     'lesson-2-6',
     'lesson-2-7',
     'lesson-3-1',
+    'lesson-3-2',
+    'lesson-3-3',
   ])
   assert.ok(planned.every((lesson) => lesson.sectionIds.length === 0 && lesson.quizId === null))
 })
@@ -145,7 +147,7 @@ test('getModuleBySlug resolves approved modules', () => {
   assert.equal(getModuleBySlug(undefined), undefined)
 })
 
-test('getLessonBySlug resolves all fourteen published lessons', () => {
+test('getLessonBySlug resolves all sixteen published lessons', () => {
   const firstLesson = getLessonBySlug('what-is-system-design')
   assert.equal(firstLesson?.id, 'lesson-1-1')
   assert.equal(firstLesson?.moduleId, 'module-1-1')
@@ -240,6 +242,20 @@ test('getLessonBySlug resolves all fourteen published lessons', () => {
   assert.equal(fourteenthLesson?.slug, 'relational-vs-nosql-models')
   assert.equal(fourteenthLesson?.status, 'published')
   assert.equal(fourteenthLesson?.title, 'Database Fundamentals')
+
+  const fifteenthLesson = getLessonBySlug('schema-design-for-access-patterns')
+  assert.equal(fifteenthLesson?.id, 'lesson-3-2')
+  assert.equal(fifteenthLesson?.moduleId, 'module-3-2')
+  assert.equal(fifteenthLesson?.slug, 'schema-design-for-access-patterns')
+  assert.equal(fifteenthLesson?.status, 'published')
+  assert.equal(fifteenthLesson?.title, 'SQL Databases')
+
+  const sixteenthLesson = getLessonBySlug('indexes-and-query-performance')
+  assert.equal(sixteenthLesson?.id, 'lesson-3-3')
+  assert.equal(sixteenthLesson?.moduleId, 'module-3-3')
+  assert.equal(sixteenthLesson?.slug, 'indexes-and-query-performance')
+  assert.equal(sixteenthLesson?.status, 'published')
+  assert.equal(sixteenthLesson?.title, 'Database Performance')
   assert.equal(getLessonBySlug('missing-lesson'), undefined)
   assert.equal(getLessonBySlug(undefined), undefined)
 })
@@ -296,6 +312,14 @@ test('getLessonsByModule returns ordered lessons', () => {
     getLessonsByModule('module-3-1').map((lesson) => lesson.id),
     ['lesson-3-1'],
   )
+  assert.deepEqual(
+    getLessonsByModule('module-3-2').map((lesson) => lesson.id),
+    ['lesson-3-2'],
+  )
+  assert.deepEqual(
+    getLessonsByModule('module-3-3').map((lesson) => lesson.id),
+    ['lesson-3-3'],
+  )
   assert.deepEqual(getLessonsByModule('module-9-9'), [])
 })
 
@@ -314,6 +338,9 @@ test('getNextLesson walks across modules and domains', () => {
   assert.equal(getNextLesson('lesson-2-5')?.id, 'lesson-2-6')
   assert.equal(getNextLesson('lesson-2-6')?.id, 'lesson-2-7')
   assert.equal(getNextLesson('lesson-2-7')?.id, 'lesson-3-1')
+  assert.equal(getNextLesson('lesson-3-1')?.id, 'lesson-3-2')
+  assert.equal(getNextLesson('lesson-3-2')?.id, 'lesson-3-3')
+  assert.equal(getNextLesson('lesson-3-3')?.id, 'lesson-3-4')
   assert.equal(getNextLesson('lesson-8-13'), undefined)
   assert.equal(getNextLesson('unknown'), undefined)
 })
@@ -332,6 +359,8 @@ test('getPreviousLesson walks backwards across modules and domains', () => {
   assert.equal(getPreviousLesson('lesson-2-6')?.id, 'lesson-2-5')
   assert.equal(getPreviousLesson('lesson-2-7')?.id, 'lesson-2-6')
   assert.equal(getPreviousLesson('lesson-3-1')?.id, 'lesson-2-7')
+  assert.equal(getPreviousLesson('lesson-3-2')?.id, 'lesson-3-1')
+  assert.equal(getPreviousLesson('lesson-3-3')?.id, 'lesson-3-2')
   assert.equal(getPreviousLesson('lesson-1-1'), undefined)
   assert.equal(getPreviousLesson('unknown'), undefined)
 })
@@ -1226,14 +1255,14 @@ test('eighth lesson quiz, challenge and summary are complete without a simulatio
   assert.equal(getSimulationBySlug(simulationSlug), undefined)
 })
 
-test('content stores contain exactly the fourteen published lessons without mixing their blocks', () => {
-  assert.equal(lessonSections.length, 210)
-  assert.equal(diagrams.length, 64)
-  assert.equal(codeExamples.length, 41)
-  assert.equal(comparisons.length, 38)
-  assert.equal(quizzes.length, 14)
-  assert.equal(practicalChallenges.length, 14)
-  assert.equal(lessonSummaries.length, 14)
+test('content stores contain exactly the sixteen published lessons without mixing their blocks', () => {
+  assert.equal(lessonSections.length, 242)
+  assert.equal(diagrams.length, 74)
+  assert.equal(codeExamples.length, 47)
+  assert.equal(comparisons.length, 44)
+  assert.equal(quizzes.length, 16)
+  assert.equal(practicalChallenges.length, 16)
+  assert.equal(lessonSummaries.length, 16)
 
   const first = getLessonBySlug('what-is-system-design')
   const second = getLessonBySlug('requirements-and-constraints')
@@ -1248,8 +1277,11 @@ test('content stores contain exactly the fourteen published lessons without mixi
   const eleventh = getLessonBySlug('choosing-the-right-protocol')
   const twelfth = getLessonBySlug('dns-and-name-resolution')
   const thirteenth = getLessonBySlug('streaming-and-long-lived-connections')
-  assert.ok(first && second && third && fourth && fifth && sixth && seventh && eighth && ninth && tenth && eleventh && twelfth && thirteenth)
-  const blockSets = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth].map((lesson) => [
+  const fourteenth = getLessonBySlug('relational-vs-nosql-models')
+  const fifteenth = getLessonBySlug('schema-design-for-access-patterns')
+  const sixteenth = getLessonBySlug('indexes-and-query-performance')
+  assert.ok(first && second && third && fourth && fifth && sixth && seventh && eighth && ninth && tenth && eleventh && twelfth && thirteenth && fourteenth && fifteenth && sixteenth)
+  const blockSets = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth].map((lesson) => [
     lesson.sectionIds,
     lesson.diagramIds,
     lesson.codeExampleIds,
@@ -1800,7 +1832,7 @@ test('first lesson code examples are small, explained and referenced correctly',
   ])
   assert.ok(codeExamples.every((example) => example.code.trim().length > 0))
   assert.ok(codeExamples.every((example) => (example.explanation ?? '').trim().length > 0))
-  assert.ok(codeExamples.every((example) => example.code.split('\n').length <= 16))
+  assert.ok(lessonExamples.every((example) => example.code.split('\n').length <= 16))
   assert.ok(lessonExamples[0]?.code.includes('GET /products/42'))
   assert.ok(lessonExamples[1]?.code.includes('cache.TryGet(id)'))
 })
@@ -2060,10 +2092,10 @@ test('sixth lesson code examples and comparisons are complete and referenced cor
 })
 
 test('published quizzes target the final standard with five four-option questions', () => {
-  assert.equal(quizzes.length, 14)
+  assert.equal(quizzes.length, 16)
   assert.deepEqual(
     quizzes.map((quiz) => quiz.id),
-    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7', 'quiz-3-1'],
+    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7', 'quiz-3-1', 'quiz-3-2', 'quiz-3-3'],
   )
   for (const quiz of quizzes) {
     assert.equal(quiz.standard, 'final')
@@ -2276,8 +2308,8 @@ test('eighth lesson quiz resolves back to the HTTP Deep Dive lesson', () => {
 test('first lesson challenge, summary and simulation link are complete and resolvable', () => {
   const lesson = getLessonBySlug('what-is-system-design')
   assert.ok(lesson)
-  assert.equal(practicalChallenges.length, 14)
-  assert.equal(lessonSummaries.length, 14)
+  assert.equal(practicalChallenges.length, 16)
+  assert.equal(lessonSummaries.length, 16)
 
   const challenge = practicalChallenges.find((candidate) => candidate.id === lesson.practicalChallengeId)
   assert.ok(challenge)
@@ -3760,7 +3792,358 @@ test('Module 3.1 publishes the complete Database Fundamentals lesson with preser
 
   assert.equal(lesson.metadata?.simulationSlug, undefined)
   assert.equal(getSimulationBySlug(lesson.metadata?.simulationSlug), undefined)
-  assert.equal(getLessonBySlug('schema-design-for-access-patterns')?.status, 'planned')
+  assert.equal(getLessonBySlug('schema-design-for-access-patterns')?.status, 'published')
+})
+
+test('Module 3.2 publishes the complete SQL Databases lesson with preserved canonical identity', () => {
+  const lesson = getLessonBySlug('schema-design-for-access-patterns')
+  assert.ok(lesson)
+  assert.equal(lesson.id, 'lesson-3-2')
+  assert.equal(lesson.moduleId, 'module-3-2')
+  assert.equal(lesson.slug, 'schema-design-for-access-patterns')
+  assert.equal(lesson.title, 'SQL Databases')
+  assert.equal(lesson.status, 'published')
+  assert.equal(lesson.order, 1)
+  assert.equal(lesson.number, 1)
+  assert.equal(modules.find((module) => module.id === 'module-3-2')?.title, 'Schema Design for Access Patterns')
+  assert.deepEqual(
+    getLessonsByModule('module-3-2').map((candidate) => candidate.id),
+    ['lesson-3-2'],
+  )
+  assert.equal(lesson.learningObjectives.length, 12)
+  assert.equal(new Set(lesson.learningObjectives.map((objective) => objective.id)).size, 12)
+  assert.ok(lesson.learningObjectives.every((objective) => objective.text.trim().length > 20))
+
+  const content = getLessonContent(lesson.slug)
+  assert.ok(content)
+  const sections = content.sections
+  assert.deepEqual(
+    sections.map((section) => section.title),
+    [
+      'Introduction: Designing a Relational Database',
+      'Tables, Rows, Columns, and Data Types',
+      'Primary Keys and Candidate Keys',
+      'Foreign Keys and Referential Integrity',
+      'One-to-One Relationships',
+      'One-to-Many Relationships',
+      'Many-to-Many Relationships',
+      'Database Constraints and Data Integrity',
+      'Designing a Complete Relational Schema',
+      'What Is Data Redundancy?',
+      'Database Anomalies',
+      'Functional Dependencies',
+      'First Normal Form (1NF)',
+      'Second Normal Form (2NF)',
+      'Third Normal Form (3NF), Normalization Trade-offs, and Denormalization',
+      'Practical Database Design Workflow and Key Takeaways',
+    ],
+  )
+  assert.deepEqual(
+    sections.map((section) => section.order),
+    Array.from({ length: 16 }, (_, index) => index + 1),
+  )
+  assert.ok(sections.every((section) => section.paragraphs.length > 0))
+  assert.ok(sections.every((section) => section.paragraphs.every((paragraph) => paragraph.trim().length > 0)))
+  assert.ok(sections.every((section) => section.keyPoints && section.keyPoints.length >= 3))
+  assert.equal(sections[0]?.kind, 'introduction')
+  assert.equal(sections[15]?.kind, 'process')
+  assert.equal(sections[15]?.steps?.length, 12)
+  assert.equal(sections[15]?.commonMistakes?.length, 8)
+  assert.ok(sections[0]?.paragraphs.join(' ').includes('OrderItems'))
+  assert.ok(sections[1]?.paragraphs.join(' ').includes('DECIMAL(18,2)'))
+  assert.ok(sections[2]?.paragraphs.join(' ').includes('surrogate'))
+  assert.ok(sections[3]?.paragraphs.join(' ').includes('ON DELETE SET NULL'))
+  assert.ok(sections[6]?.paragraphs.join(' ').includes('junction table'))
+  assert.ok(sections[7]?.paragraphs.join(' ').includes('Application validation'))
+  assert.ok(sections[10]?.paragraphs.join(' ').includes('deletion anomaly'))
+  assert.ok(sections[11]?.paragraphs.join(' ').includes('CustomerID → CustomerName'))
+  assert.ok(sections[12]?.paragraphs.join(' ').includes('JSON'))
+  assert.ok(sections[13]?.paragraphs.join(' ').includes('partial dependency'))
+  assert.ok(sections[14]?.paragraphs.join(' ').includes('Denormalization'))
+
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.id),
+    [
+      'diagram-3-2-relational-building-blocks',
+      'diagram-3-2-relationship-types',
+      'diagram-3-2-constraints-referential-integrity',
+      'diagram-3-2-normalization-before-after',
+      'diagram-3-2-1nf-2nf-3nf-progression',
+    ],
+  )
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.layout),
+    ['layers', 'comparison', 'flow', 'comparison', 'flow'],
+  )
+  assert.ok(content.diagrams.every((diagram) => diagram.nodes.length >= 5 && diagram.edges.length >= 4))
+  assert.equal(new Set(content.diagrams.flatMap((diagram) => diagram.nodes.map((node) => node.id))).size, 31)
+  assert.ok(
+    content.diagrams.every((diagram) =>
+      diagram.edges.every(
+        (edge) =>
+          diagram.nodes.some((node) => node.id === edge.source) &&
+          diagram.nodes.some((node) => node.id === edge.target),
+      ),
+    ),
+  )
+
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.id),
+    [
+      'code-3-2-creating-tables-and-relationships',
+      'code-3-2-many-to-many-and-referential-integrity',
+      'code-3-2-normalization-in-practice',
+    ],
+  )
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.language),
+    ['sql', 'sql', 'sql'],
+  )
+  assert.ok(content.codeExamples.every((example) => example.code.split('\n').length <= 60))
+  assert.ok(content.codeExamples[0]?.code.includes('DECIMAL(18,2)'))
+  assert.ok(content.codeExamples[0]?.code.includes('ON DELETE NO ACTION'))
+  assert.ok(content.codeExamples[1]?.code.includes('StudentCourses'))
+  assert.ok(content.codeExamples[2]?.code.includes('PoorOrderRow'))
+
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.id),
+    [
+      'comparison-3-2-primary-key-vs-foreign-key',
+      'comparison-3-2-1nf-vs-2nf-vs-3nf',
+      'comparison-3-2-normalization-vs-denormalization',
+    ],
+  )
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.rows.length),
+    [6, 5, 7],
+  )
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.columns.length),
+    [2, 3, 2],
+  )
+  assert.ok(
+    content.comparisons.every((comparison) =>
+      comparison.rows.every((row) => comparison.columns.every((column) => (row.values[column.id] ?? '').length > 0)),
+    ),
+  )
+
+  const quiz = content.quiz
+  assert.ok(quiz)
+  assert.equal(quiz.id, 'quiz-3-2')
+  assert.equal(quiz.title, 'SQL Databases: Final Assessment')
+  assert.equal(quiz.standard, 'final')
+  assert.equal(quiz.passThreshold, 0.8)
+  assert.deepEqual(checkQuizStandard(quiz), [])
+  assert.equal(quiz.questions.length, 5)
+  assert.ok(quiz.questions.every((question) => question.options.length === 4))
+  assert.ok(quiz.questions.every((question) => question.options.filter((option) => option.isCorrect).length === 1))
+  assert.ok(quiz.questions.every((question) => question.options.every((option) => (option.explanation ?? '').trim().length > 0)))
+  assert.ok(quiz.questions.every((question) => (question.explanation ?? '').trim().length > 0))
+  assert.deepEqual(
+    quiz.questions.map((question) => question.options.findIndex((option) => option.isCorrect)),
+    [2, 2, 1, 1, 2],
+  )
+
+  const challenge = content.practicalChallenge
+  assert.ok(challenge)
+  assert.equal(challenge.id, 'challenge-3-2')
+  assert.equal(challenge.title, 'Design and Normalize a University Enrollment Database')
+  assert.ok(challenge.scenario.includes('UniversityRecords'))
+  assert.equal(challenge.requirements.length, 12)
+  assert.equal(challenge.constraints.length, 8)
+  assert.equal(challenge.deliverables.length, 10)
+  assert.equal(challenge.hints?.length, 13)
+  assert.ok(challenge.hints?.some((hint) => hint.includes('Model solution step 12')))
+  assert.ok(challenge.hints?.some((hint) => hint.includes('Evaluation criteria')))
+
+  const summary = content.summary
+  assert.ok(summary)
+  assert.equal(summary.id, 'summary-3-2')
+  assert.ok(summary.overview.includes('functional dependencies and normalization'))
+  assert.equal(summary.keyTakeaways.length, 18)
+  assert.ok(summary.nextSteps && summary.nextSteps.length >= 2)
+
+  assert.equal(lesson.metadata?.simulationSlug, undefined)
+  assert.equal(getSimulationBySlug(lesson.metadata?.simulationSlug), undefined)
+})
+
+test('Module 3.3 publishes the complete Database Performance lesson with preserved canonical identity', () => {
+  const lesson = getLessonBySlug('indexes-and-query-performance')
+  assert.ok(lesson)
+  assert.equal(lesson.id, 'lesson-3-3')
+  assert.equal(lesson.moduleId, 'module-3-3')
+  assert.equal(lesson.slug, 'indexes-and-query-performance')
+  assert.equal(lesson.title, 'Database Performance')
+  assert.equal(lesson.status, 'published')
+  assert.equal(lesson.order, 1)
+  assert.equal(lesson.number, 1)
+  assert.equal(modules.find((module) => module.id === 'module-3-3')?.title, 'Indexes and Query Performance')
+  assert.deepEqual(
+    getLessonsByModule('module-3-3').map((candidate) => candidate.id),
+    ['lesson-3-3'],
+  )
+  assert.equal(lesson.learningObjectives.length, 12)
+  assert.equal(new Set(lesson.learningObjectives.map((objective) => objective.id)).size, 12)
+  assert.ok(lesson.learningObjectives.every((objective) => objective.text.trim().length > 20))
+
+  const content = getLessonContent(lesson.slug)
+  assert.ok(content)
+  const sections = content.sections
+  assert.deepEqual(
+    sections.map((section) => section.title),
+    [
+      'Why Database Performance Matters',
+      'How a Database Executes a Query',
+      'What Are Database Indexes?',
+      'Clustered Indexes',
+      'Nonclustered Indexes',
+      'Composite Indexes and Key Order',
+      'Covering Indexes and Included Columns',
+      'Selectivity, Cardinality, and Statistics',
+      'Understanding Execution Plans',
+      'Index Seek vs Index Scan',
+      'Joins and Query Performance',
+      'SARGability and Query Writing',
+      'Sorting, Pagination, and Data Retrieval',
+      'Index Trade-offs and Maintenance',
+      'A Practical Query Optimization Workflow',
+      'Common Mistakes and Key Takeaways',
+    ],
+  )
+  assert.deepEqual(
+    sections.map((section) => section.order),
+    Array.from({ length: 16 }, (_, index) => index + 1),
+  )
+  assert.ok(sections.every((section) => section.paragraphs.length > 0))
+  assert.ok(sections.every((section) => section.paragraphs.every((paragraph) => paragraph.trim().length > 0)))
+  assert.ok(sections.every((section) => section.keyPoints && section.keyPoints.length >= 3))
+  assert.equal(sections[0]?.kind, 'introduction')
+  assert.equal(sections[14]?.kind, 'process')
+  assert.equal(sections[14]?.steps?.length, 11)
+  assert.equal(sections[15]?.kind, 'mistakes')
+  assert.equal(sections[15]?.commonMistakes?.length, 10)
+  assert.ok(sections[0]?.paragraphs.join(' ').includes('orders search endpoint'))
+  assert.ok(sections[1]?.paragraphs.join(' ').includes('optimizer'))
+  assert.ok(sections[3]?.paragraphs.join(' ').includes('SQL Server rowstore clustered index'))
+  assert.ok(sections[4]?.paragraphs.join(' ').includes('Key Lookup'))
+  assert.ok(sections[5]?.paragraphs.join(' ').includes('(CustomerId, Status, CreatedAt)'))
+  assert.ok(sections[6]?.paragraphs.join(' ').includes('INCLUDE'))
+  assert.ok(sections[7]?.paragraphs.join(' ').includes('Selectivity'))
+  assert.ok(sections[8]?.paragraphs.join(' ').includes('execution plan'))
+  assert.ok(sections[9]?.paragraphs.join(' ').includes('Index Seek'))
+  assert.ok(sections[10]?.paragraphs.join(' ').includes('Nested Loops'))
+  assert.ok(sections[11]?.paragraphs.join(' ').includes('SARGable'))
+  assert.ok(sections[12]?.paragraphs.join(' ').includes('N+1'))
+  assert.ok(sections[13]?.paragraphs.join(' ').includes('write amplification'))
+  assert.ok(sections[14]?.paragraphs.join(' ').includes('Query Store'))
+  assert.ok(sections[15]?.paragraphs.join(' ').includes('Measure → Inspect'))
+
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.id),
+    [
+      'diagram-3-3-table-search-with-index',
+      'diagram-3-3-clustered-vs-nonclustered',
+      'diagram-3-3-composite-index-order',
+      'diagram-3-3-reading-an-execution-plan',
+      'diagram-3-3-optimization-workflow',
+    ],
+  )
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.layout),
+    ['comparison', 'layers', 'comparison', 'flow', 'flow'],
+  )
+  assert.ok(content.diagrams.every((diagram) => diagram.nodes.length >= 5 && diagram.edges.length >= 4))
+  assert.equal(new Set(content.diagrams.flatMap((diagram) => diagram.nodes.map((node) => node.id))).size, 34)
+  assert.ok(
+    content.diagrams.every((diagram) =>
+      diagram.edges.every(
+        (edge) =>
+          diagram.nodes.some((node) => node.id === edge.source) &&
+          diagram.nodes.some((node) => node.id === edge.target),
+      ),
+    ),
+  )
+
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.id),
+    [
+      'code-3-3-index-creation-and-usage',
+      'code-3-3-composite-covering-index',
+      'code-3-3-sargable-date-filter',
+    ],
+  )
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.language),
+    ['sql', 'sql', 'sql'],
+  )
+  assert.ok(content.codeExamples.every((example) => example.code.split('\n').length <= 60))
+  assert.ok(content.codeExamples[0]?.code.includes('IX_Orders_CustomerId'))
+  assert.ok(content.codeExamples[0]?.code.includes('SET STATISTICS IO ON'))
+  assert.ok(content.codeExamples[1]?.code.includes('INCLUDE (TotalAmount)'))
+  assert.ok(content.codeExamples[2]?.code.includes('YEAR(CreatedAt)'))
+  assert.ok(content.codeExamples[2]?.code.includes('CreatedAt < @ToDate'))
+
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.id),
+    [
+      'comparison-3-3-clustered-vs-nonclustered',
+      'comparison-3-3-seek-vs-scan',
+      'comparison-3-3-sargable-vs-non-sargable',
+    ],
+  )
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.rows.length),
+    [6, 6, 6],
+  )
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.columns.length),
+    [2, 2, 2],
+  )
+  assert.ok(
+    content.comparisons.every((comparison) =>
+      comparison.rows.every((row) => comparison.columns.every((column) => (row.values[column.id] ?? '').length > 0)),
+    ),
+  )
+
+  const quiz = content.quiz
+  assert.ok(quiz)
+  assert.equal(quiz.id, 'quiz-3-3')
+  assert.equal(quiz.title, 'Database Performance: Final Assessment')
+  assert.equal(quiz.standard, 'final')
+  assert.equal(quiz.passThreshold, 0.8)
+  assert.deepEqual(checkQuizStandard(quiz), [])
+  assert.equal(quiz.questions.length, 5)
+  assert.ok(quiz.questions.every((question) => question.options.length === 4))
+  assert.ok(quiz.questions.every((question) => question.options.filter((option) => option.isCorrect).length === 1))
+  assert.ok(quiz.questions.every((question) => question.options.every((option) => (option.explanation ?? '').trim().length > 0)))
+  assert.ok(quiz.questions.every((question) => (question.explanation ?? '').trim().length > 0))
+  assert.deepEqual(
+    quiz.questions.map((question) => question.options.findIndex((option) => option.isCorrect)),
+    [1, 3, 1, 0, 2],
+  )
+
+  const challenge = content.practicalChallenge
+  assert.ok(challenge)
+  assert.equal(challenge.id, 'challenge-3-3')
+  assert.equal(challenge.title, 'Diagnose and Optimize a Slow Orders Query')
+  assert.ok(challenge.scenario.includes('OrderItems'))
+  assert.equal(challenge.requirements.length, 12)
+  assert.equal(challenge.constraints.length, 8)
+  assert.equal(challenge.deliverables.length, 10)
+  assert.equal(challenge.hints?.length, 13)
+  assert.ok(challenge.hints?.some((hint) => hint.includes('Model solution step 12')))
+  assert.ok(challenge.hints?.some((hint) => hint.includes('Evaluation criteria')))
+
+  const summary = content.summary
+  assert.ok(summary)
+  assert.equal(summary.id, 'summary-3-3')
+  assert.ok(summary.overview.includes('measured application symptoms'))
+  assert.ok(summary.overview.includes('measuring again'))
+  assert.equal(summary.keyTakeaways.length, 18)
+  assert.ok(summary.nextSteps && summary.nextSteps.length >= 2)
+
+  assert.equal(lesson.metadata?.simulationSlug, undefined)
+  assert.equal(getSimulationBySlug(lesson.metadata?.simulationSlug), undefined)
 })
 
 test('curriculum validation reports no issues', () => {

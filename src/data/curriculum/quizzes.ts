@@ -2810,4 +2810,199 @@ export const quizzes: Quiz[] = [
       },
     ],
   },
+  {
+    id: 'quiz-3-3',
+    title: 'Database Performance: Final Assessment',
+    description:
+      'Apply indexing, execution-plan, SARGability and measurement reasoning to realistic database performance problems.',
+    passThreshold: 0.8,
+    standard: 'final',
+    questions: [
+      {
+        id: 'quiz-3-3-q1',
+        prompt:
+          'An orders search is slow and the team is considering a new index. Which statement best describes the likely trade-off?',
+        options: [
+          {
+            id: 'quiz-3-3-q1-a',
+            label: 'Indexes make every query faster, so add one to every filtered column.',
+            isCorrect: false,
+            explanation:
+              'Indexes help only when a query can use them effectively. Many indexes add storage and write maintenance without guaranteeing faster reads.',
+          },
+          {
+            id: 'quiz-3-3-q1-b',
+            label: 'A targeted index can improve selective reads but adds storage and extra work on writes.',
+            isCorrect: true,
+            explanation:
+              'This captures the core read-versus-write trade-off and avoids claiming a universal improvement.',
+          },
+          {
+            id: 'quiz-3-3-q1-c',
+            label: 'An index removes the need to inspect execution plans because access is always direct.',
+            isCorrect: false,
+            explanation:
+              'Optimizers may still scan, perform lookups or change plans with different parameters. Plans remain necessary.',
+          },
+          {
+            id: 'quiz-3-3-q1-d',
+            label: 'Indexes only affect reads, so write performance is unchanged.',
+            isCorrect: false,
+            explanation:
+              'Inserts, updates and deletes must maintain every index, which is write amplification.',
+          },
+        ],
+        explanation:
+          'Index decisions should connect a measured read problem with the storage and write cost of the chosen access path.',
+      },
+      {
+        id: 'quiz-3-3-q2',
+        prompt:
+          'A common report filters with CustomerId = @CustomerId AND Status = @Status and orders by CreatedAt. Which composite index key order is most defensible as a starting hypothesis?',
+        options: [
+          {
+            id: 'quiz-3-3-q2-a',
+            label: '(CreatedAt, Status, CustomerId), because the sort column should always lead.',
+            isCorrect: false,
+            explanation:
+              'Putting CreatedAt first makes it harder to seek directly on the equality filters; the sort should be considered with the filters, not in isolation.',
+          },
+          {
+            id: 'quiz-3-3-q2-b',
+            label: '(Status, CustomerId, CreatedAt), because Status is always more selective.',
+            isCorrect: false,
+            explanation:
+              'Selectivity is not a universal property. It depends on parameter values and data distribution, and the query starts with CustomerId.',
+          },
+          {
+            id: 'quiz-3-3-q2-c',
+            label: '(CustomerId, CreatedAt, Status), because date ranges always come before equality columns.',
+            isCorrect: false,
+            explanation:
+              'A range on CreatedAt before equality on Status can limit how effectively later keys narrow the result. This order needs evidence.',
+          },
+          {
+            id: 'quiz-3-3-q2-d',
+            label: '(CustomerId, Status, CreatedAt), because equality predicates can use the leading keys and CreatedAt can support ordering or a range.',
+            isCorrect: true,
+            explanation:
+              'This is a reasonable starting hypothesis: equality on leading keys followed by an ordered date column. It must still be tested with real plans and parameters.',
+          },
+        ],
+        explanation:
+          'Composite order should reflect equality, range and ordering patterns plus actual data distribution, not a blanket rule.',
+      },
+      {
+        id: 'quiz-3-3-q3',
+        prompt:
+          'An actual execution plan shows an Index Seek followed by many Key Lookups and a large difference between estimated and actual rows. What is the best interpretation?',
+        options: [
+          {
+            id: 'quiz-3-3-q3-a',
+            label: 'The Seek proves the plan is optimal and no further work is needed.',
+            isCorrect: false,
+            explanation:
+              'A Seek can still be expensive when it feeds many lookups or is based on misleading estimates.',
+          },
+          {
+            id: 'quiz-3-3-q3-b',
+            label: 'The lookups may be costly and the row mismatch suggests statistics or parameter estimates need investigation.',
+            isCorrect: true,
+            explanation:
+              'This identifies both possible costs and the diagnostic value of comparing estimated and actual rows.',
+          },
+          {
+            id: 'quiz-3-3-q3-c',
+            label: 'The plan should be rejected because Key Lookups are never acceptable.',
+            isCorrect: false,
+            explanation:
+              'A few lookups can be perfectly reasonable. The number of rows and the measured cost determine whether they matter.',
+          },
+          {
+            id: 'quiz-3-3-q3-d',
+            label: 'The cost percentage gives exact milliseconds, so the operator with the highest percentage is always the bottleneck.',
+            isCorrect: false,
+            explanation:
+              'Plan cost percentages are relative estimates, not elapsed-time measurements.',
+          },
+        ],
+        explanation:
+          'Read plans as data flow: access path, lookups, joins, sorts and estimate quality together explain performance.',
+      },
+      {
+        id: 'quiz-3-3-q4',
+        prompt:
+          'Which date predicate is most likely to preserve an efficient index seek on CreatedAt in SQL Server, assuming a suitable index exists?',
+        options: [
+          {
+            id: 'quiz-3-3-q4-a',
+            label: 'WHERE CreatedAt >= @FromDate AND CreatedAt < @ToDate',
+            isCorrect: true,
+            explanation:
+              'The indexed column is preserved and the half-open range is correct for DATETIME2 values.',
+          },
+          {
+            id: 'quiz-3-3-q4-b',
+            label: 'WHERE YEAR(CreatedAt) = @Year',
+            isCorrect: false,
+            explanation:
+              'Applying YEAR to the column can prevent a clean seek over the underlying date range.',
+          },
+          {
+            id: 'quiz-3-3-q4-c',
+            label: 'WHERE CAST(CreatedAt AS DATE) = @Date',
+            isCorrect: false,
+            explanation:
+              'Casting the indexed column changes the expression and can block a direct seek, even though the business filter may look simple.',
+          },
+          {
+            id: 'quiz-3-3-q4-d',
+            label: 'WHERE CONVERT(NVARCHAR(30), CreatedAt) LIKE @Prefix',
+            isCorrect: false,
+            explanation:
+              'Converting the column to text and using a pattern is unlikely to support an efficient date range seek.',
+          },
+        ],
+        explanation:
+          'SARGable predicates keep the indexed column bare. Apply transformations to parameters rather than stored columns when possible.',
+      },
+      {
+        id: 'quiz-3-3-q5',
+        prompt:
+          'A team changes three indexes and two query rewrites at once; the endpoint becomes faster. What is the main problem with this approach?',
+        options: [
+          {
+            id: 'quiz-3-3-q5-a',
+            label: 'Multiple changes always make plans worse in SQL Server.',
+            isCorrect: false,
+            explanation:
+              'Multiple changes can work, but the issue is attribution: you cannot tell which change caused the improvement.',
+          },
+          {
+            id: 'quiz-3-3-q5-b',
+            label: 'Execution plans cannot be compared after any change.',
+            isCorrect: false,
+            explanation:
+              'Plans can be compared; using one representative plan and repeated measurements is standard practice.',
+          },
+          {
+            id: 'quiz-3-3-q5-c',
+            label: 'Without a baseline and one-change-at-a-time testing, the team cannot explain why performance changed or avoid regressions.',
+            isCorrect: true,
+            explanation:
+              'A measurement-driven workflow isolates hypotheses, validates correctness and produces a result that can be defended and repeated.',
+          },
+          {
+            id: 'quiz-3-3-q5-d',
+            label: 'Queries with joins cannot be optimized without forcing a join algorithm.',
+            isCorrect: false,
+            explanation:
+              'Forcing joins is rarely the right first step. Better access paths, estimates and query shape are usually explored first.',
+          },
+        ],
+        explanation:
+          'Reliable optimization is an experiment: baseline, hypothesis, targeted change, repeat measurement and validation.',
+      },
+    ],
+  },
 ]

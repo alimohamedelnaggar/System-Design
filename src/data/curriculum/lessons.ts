@@ -1516,7 +1516,108 @@ const sqlDatabases: Lesson = {
   summaryId: 'summary-3-2',
 }
 
-/** One lesson per approved module topic; Domain 01 through 1.6, Domain 02 through 2.7 and Domain 03 through 3.2 have content. */
+const databasePerformance: Lesson = {
+  id: 'lesson-3-3',
+  moduleId: 'module-3-3',
+  slug: 'indexes-and-query-performance',
+  number: 1,
+  title: 'Database Performance',
+  description:
+    'Reason about query execution, indexes, execution plans and SARGable query design, then apply a measurement-driven workflow to diagnose and optimize slow database access.',
+  estimatedMinutes: 90,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-3-3-1',
+      text: 'Explain how databases execute queries and identify common performance cost drivers.',
+    },
+    {
+      id: 'objective-3-3-2',
+      text: 'Explain what indexes are and why they can improve read performance.',
+    },
+    {
+      id: 'objective-3-3-3',
+      text: 'Describe SQL Server clustered and nonclustered index semantics without generalizing them to every database engine.',
+    },
+    {
+      id: 'objective-3-3-4',
+      text: 'Explain composite indexes and why column order affects filtering and ordering.',
+    },
+    {
+      id: 'objective-3-3-5',
+      text: 'Explain covering indexes and how SQL Server INCLUDE columns can avoid Key Lookups.',
+    },
+    {
+      id: 'objective-3-3-6',
+      text: 'Describe selectivity, cardinality and statistics and their role in optimizer estimates.',
+    },
+    {
+      id: 'objective-3-3-7',
+      text: 'Read a basic SQL Server execution plan and distinguish estimated from actual behavior.',
+    },
+    {
+      id: 'objective-3-3-8',
+      text: 'Recognize Index Seek, Index Scan, Table Scan, Key Lookup, join and Sort operators in context.',
+    },
+    {
+      id: 'objective-3-3-9',
+      text: 'Identify non-SARGable predicates and explain why they can prevent efficient index usage.',
+    },
+    {
+      id: 'objective-3-3-10',
+      text: 'Improve queries involving filtering, joins, projection and pagination.',
+    },
+    {
+      id: 'objective-3-3-11',
+      text: 'Explain at a high level how stale statistics and parameter sensitivity can affect query plans.',
+    },
+    {
+      id: 'objective-3-3-12',
+      text: 'Apply a measurement-driven optimization workflow instead of guessing at indexes or rewrites.',
+    },
+  ],
+  sectionIds: [
+    'section-3-3-1',
+    'section-3-3-2',
+    'section-3-3-3',
+    'section-3-3-4',
+    'section-3-3-5',
+    'section-3-3-6',
+    'section-3-3-7',
+    'section-3-3-8',
+    'section-3-3-9',
+    'section-3-3-10',
+    'section-3-3-11',
+    'section-3-3-12',
+    'section-3-3-13',
+    'section-3-3-14',
+    'section-3-3-15',
+    'section-3-3-16',
+  ],
+  diagramIds: [
+    'diagram-3-3-table-search-with-index',
+    'diagram-3-3-clustered-vs-nonclustered',
+    'diagram-3-3-composite-index-order',
+    'diagram-3-3-reading-an-execution-plan',
+    'diagram-3-3-optimization-workflow',
+  ],
+  codeExampleIds: [
+    'code-3-3-index-creation-and-usage',
+    'code-3-3-composite-covering-index',
+    'code-3-3-sargable-date-filter',
+  ],
+  comparisonIds: [
+    'comparison-3-3-clustered-vs-nonclustered',
+    'comparison-3-3-seek-vs-scan',
+    'comparison-3-3-sargable-vs-non-sargable',
+  ],
+  quizId: 'quiz-3-3',
+  practicalChallengeId: 'challenge-3-3',
+  summaryId: 'summary-3-3',
+}
+
+/** One lesson per approved module topic; Domain 01 through 1.6, Domain 02 through 2.7 and Domain 03 through 3.3 have content. */
 export const lessons: Lesson[] = [
   whatIsSystemDesign,
   clientServerArchitecture,
@@ -1533,6 +1634,7 @@ export const lessons: Lesson[] = [
   reverseProxy,
   databaseFundamentals,
   sqlDatabases,
+  databasePerformance,
 
   // Domain 01 — System Design Fundamentals
 
@@ -1541,7 +1643,6 @@ export const lessons: Lesson[] = [
   // Domain 02 — Networking & Communication
 
   // Domain 03 — Database Design & Data Management
-  plannedLesson('module-3-3', 'indexes-and-query-performance', 'Indexes and Query Performance', 'Use indexes deliberately and understand their cost.'),
   plannedLesson('module-3-4', 'transactions-and-consistency-boundaries', 'Transactions and Consistency Boundaries', 'Place transaction boundaries where correctness requires them.'),
   plannedLesson('module-3-5', 'replication-and-read-paths', 'Replication and Read Paths', 'Use replicas to serve reads without losing correctness guarantees.'),
   plannedLesson('module-3-6', 'data-growth-and-partitioning', 'Data Growth and Partitioning', 'Partition data as volume and query load grow.'),
