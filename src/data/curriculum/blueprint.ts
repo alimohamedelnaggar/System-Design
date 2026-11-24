@@ -13,9 +13,9 @@ export const BLUEPRINT_MODULE_COUNTS = [7, 7, 8, 7, 8, 8, 9, 13] as const
 
 export const BLUEPRINT_TOTAL_MODULES = 67 as const
 
-export const BLUEPRINT_PUBLISHED_LESSONS = 3 as const
+export const BLUEPRINT_PUBLISHED_LESSONS = 13 as const
 
-export const BLUEPRINT_PLANNED_LESSONS = 64 as const
+export const BLUEPRINT_PLANNED_LESSONS = 54 as const
 
 export type BlueprintDomainNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 

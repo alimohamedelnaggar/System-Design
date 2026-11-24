@@ -311,27 +311,1030 @@ const webFundamentals: Lesson = {
   summaryId: 'summary-1-3',
 }
 
-/** One lesson per approved module topic; Domain 01 / Modules 1.1 to 1.3 have content. */
+const apis: Lesson = {
+  id: 'lesson-1-4',
+  moduleId: 'module-1-4',
+  slug: 'trade-offs-and-design-decisions',
+  number: 1,
+  title: 'APIs',
+  description:
+    'Learn how components expose functionality through API contracts, and design predictable resource-oriented HTTP interfaces using methods, JSON, status codes and consistent error responses.',
+  estimatedMinutes: 55,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-1-4-1',
+      text: 'Explain what an API is and give one reason applications expose APIs instead of direct implementation access.',
+    },
+    {
+      id: 'objective-1-4-2',
+      text: 'Describe the role of an API as the boundary between an API consumer and an API provider in client-server communication.',
+    },
+    {
+      id: 'objective-1-4-3',
+      text: 'Distinguish an API contract from its implementation, the user interface and the underlying database.',
+    },
+    {
+      id: 'objective-1-4-4',
+      text: 'List the elements of an API contract, including endpoint, method, parameters, headers, body, response structure, status codes and error behaviour.',
+    },
+    {
+      id: 'objective-1-4-5',
+      text: 'Describe a REST API using resources, identifiers, representations, stateless communication and a uniform interface.',
+    },
+    {
+      id: 'objective-1-4-6',
+      text: 'Match GET, POST, PUT, PATCH and DELETE to their intended semantics with a realistic product API example for each.',
+    },
+    {
+      id: 'objective-1-4-7',
+      text: 'Classify HTTP methods as safe or idempotent and explain why PUT, DELETE and PATCH differ in these properties.',
+    },
+    {
+      id: 'objective-1-4-8',
+      text: 'Interpret the five HTTP status-code categories and distinguish common 4xx responses from common 5xx responses.',
+    },
+    {
+      id: 'objective-1-4-9',
+      text: 'Explain how JSON represents objects, arrays and scalar values, and why a representation format is not itself an API.',
+    },
+    {
+      id: 'objective-1-4-10',
+      text: 'Design predictable resource-oriented endpoints for a product collection and individual product resources.',
+    },
+    {
+      id: 'objective-1-4-11',
+      text: 'Correct at least two common API design misconceptions with an accurate mental model.',
+    },
+    {
+      id: 'objective-1-4-12',
+      text: 'Explain why consistent contracts and backward-compatible changes matter when clients and servers deploy independently.',
+    },
+  ],
+  sectionIds: [
+    'section-1-4-1',
+    'section-1-4-2',
+    'section-1-4-3',
+    'section-1-4-4',
+    'section-1-4-5',
+    'section-1-4-6',
+    'section-1-4-7',
+    'section-1-4-8',
+    'section-1-4-9',
+    'section-1-4-10',
+    'section-1-4-11',
+    'section-1-4-12',
+    'section-1-4-13',
+    'section-1-4-14',
+  ],
+  diagramIds: [
+    'diagram-1-4-api-boundary',
+    'diagram-1-4-request-anatomy',
+    'diagram-1-4-rest-resource-model',
+    'diagram-1-4-request-lifecycle',
+  ],
+  codeExampleIds: [
+    'code-1-4-http-request-response',
+    'code-1-4-fetch-product',
+    'code-1-4-aspnet-product-endpoint',
+  ],
+  comparisonIds: [
+    'comparison-1-4-put-vs-patch',
+    'comparison-1-4-401-vs-403',
+    'comparison-1-4-post-vs-put',
+  ],
+  quizId: 'quiz-1-4',
+  practicalChallengeId: 'challenge-1-4',
+  summaryId: 'summary-1-4',
+}
+
+const performanceBasics: Lesson = {
+  id: 'lesson-1-5',
+  moduleId: 'module-1-5',
+  slug: 'sketching-your-first-design',
+  number: 1,
+  title: 'Performance Basics',
+  description:
+    'Reason about system performance with latency, throughput, bandwidth and response time, interpret percentiles, identify bottlenecks and make measurement-driven optimization decisions.',
+  estimatedMinutes: 50,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-1-5-1',
+      text: 'Define latency and explain how added delay affects user experience with a concrete request example.',
+    },
+    {
+      id: 'objective-1-5-2',
+      text: 'Define throughput as completed work per unit of time and interpret requests per second as a capacity and workload measure.',
+    },
+    {
+      id: 'objective-1-5-3',
+      text: 'Distinguish bandwidth from achieved throughput using bits per second and a file-transfer example.',
+    },
+    {
+      id: 'objective-1-5-4',
+      text: 'Distinguish client-observed response time from server-side request duration and time to first byte by stating measurement boundaries.',
+    },
+    {
+      id: 'objective-1-5-5',
+      text: 'Explain how network travel, queueing and processing contribute to a complete request timeline.',
+    },
+    {
+      id: 'objective-1-5-6',
+      text: 'Explain why throughput can plateau while latency rises as a system approaches saturation.',
+    },
+    {
+      id: 'objective-1-5-7',
+      text: 'Explain why an average latency alone can hide slow requests for a significant group of users.',
+    },
+    {
+      id: 'objective-1-5-8',
+      text: 'Interpret p50, p90, p95 and p99 values for a stated observation window and request population.',
+    },
+    {
+      id: 'objective-1-5-9',
+      text: 'Identify likely bottlenecks such as CPU saturation, database load, I/O, connection limits and queue buildup from described symptoms.',
+    },
+    {
+      id: 'objective-1-5-10',
+      text: 'Distinguish load, stress, spike and endurance testing by the question each approach answers.',
+    },
+    {
+      id: 'objective-1-5-11',
+      text: 'Analyze a simple overload scenario using offered load, completed throughput, response time percentiles and resource utilization.',
+    },
+    {
+      id: 'objective-1-5-12',
+      text: 'Explain why performance optimization must be measurement-driven and describe a trade-off created by a proposed optimization.',
+    },
+  ],
+  sectionIds: [
+    'section-1-5-1',
+    'section-1-5-2',
+    'section-1-5-3',
+    'section-1-5-4',
+    'section-1-5-5',
+    'section-1-5-6',
+    'section-1-5-7',
+    'section-1-5-8',
+    'section-1-5-9',
+    'section-1-5-10',
+    'section-1-5-11',
+    'section-1-5-12',
+    'section-1-5-13',
+    'section-1-5-14',
+  ],
+  diagramIds: [
+    'diagram-1-5-request-timeline',
+    'diagram-1-5-latency-throughput',
+    'diagram-1-5-latency-percentiles',
+    'diagram-1-5-bottleneck',
+  ],
+  codeExampleIds: [
+    'code-1-5-client-response-time',
+    'code-1-5-aspnet-request-duration',
+    'code-1-5-throughput-calculation',
+  ],
+  comparisonIds: [
+    'comparison-1-5-latency-vs-throughput',
+    'comparison-1-5-bandwidth-vs-throughput',
+    'comparison-1-5-average-vs-percentile',
+  ],
+  quizId: 'quiz-1-5',
+  practicalChallengeId: 'challenge-1-5',
+  summaryId: 'summary-1-5',
+}
+
+const architectureStyles: Lesson = {
+  id: 'lesson-1-6',
+  moduleId: 'module-1-6',
+  slug: 'back-of-the-envelope-scale-estimation',
+  number: 1,
+  title: 'Architecture Styles',
+  description:
+    'Compare monolithic, layered and modular monolith architectures by boundaries, request flow, quality attributes and deployment scope, then choose a style from requirements and constraints.',
+  estimatedMinutes: 55,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-1-6-1',
+      text: 'Define software architecture by naming components, responsibilities, relationships and boundaries in a described system.',
+    },
+    {
+      id: 'objective-1-6-2',
+      text: 'Distinguish architecture from application design, design patterns, frameworks and programming languages using concrete examples.',
+    },
+    {
+      id: 'objective-1-6-3',
+      text: 'Describe a monolithic application as one deployable unit with shared runtime resources and multiple internal capabilities.',
+    },
+    {
+      id: 'objective-1-6-4',
+      text: 'Explain two advantages and two challenges of monolithic architecture without treating them as universal properties.',
+    },
+    {
+      id: 'objective-1-6-5',
+      text: 'Explain how layered architecture separates presentation, business and data-access responsibilities.',
+    },
+    {
+      id: 'objective-1-6-6',
+      text: 'State the responsibilities of the presentation, business logic and data-access layers for a product-details request.',
+    },
+    {
+      id: 'objective-1-6-7',
+      text: 'Trace the dependency and return direction between layers and explain why incorrect dependency direction weakens a design.',
+    },
+    {
+      id: 'objective-1-6-8',
+      text: 'Describe a modular monolith as one deployable application with strong internal boundaries and controlled module interfaces.',
+    },
+    {
+      id: 'objective-1-6-9',
+      text: 'Distinguish a modular monolith from a tightly coupled monolith by comparing encapsulation, ownership and dependency discipline.',
+    },
+    {
+      id: 'objective-1-6-10',
+      text: 'Compare monolithic, layered and modular monolith approaches using deployment, boundaries, testing, maintainability and complexity.',
+    },
+    {
+      id: 'objective-1-6-11',
+      text: 'Select a defensible architecture for a stated business scenario by relating requirements and constraints to trade-offs.',
+    },
+    {
+      id: 'objective-1-6-12',
+      text: 'Explain when added architectural complexity is justified and when a simpler structure better satisfies current requirements.',
+    },
+  ],
+  sectionIds: [
+    'section-1-6-1',
+    'section-1-6-2',
+    'section-1-6-3',
+    'section-1-6-4',
+    'section-1-6-5',
+    'section-1-6-6',
+    'section-1-6-7',
+    'section-1-6-8',
+    'section-1-6-9',
+    'section-1-6-10',
+    'section-1-6-11',
+    'section-1-6-12',
+    'section-1-6-13',
+    'section-1-6-14',
+    'section-1-6-15',
+    'section-1-6-16',
+  ],
+  diagramIds: [
+    'diagram-1-6-monolith',
+    'diagram-1-6-layered-architecture',
+    'diagram-1-6-modular-monolith',
+    'diagram-1-6-monolith-vs-modular',
+    'diagram-1-6-layered-request-flow',
+  ],
+  codeExampleIds: [
+    'code-1-6-monolith-structure',
+    'code-1-6-layered-flow',
+    'code-1-6-module-boundaries',
+  ],
+  comparisonIds: [
+    'comparison-1-6-monolith-vs-modular-monolith',
+    'comparison-1-6-layered-vs-modular-architecture',
+    'comparison-1-6-monolith-vs-microservices',
+  ],
+  quizId: 'quiz-1-6',
+  practicalChallengeId: 'challenge-1-6',
+  summaryId: 'summary-1-6',
+}
+
+const networkFoundations: Lesson = {
+  id: 'lesson-2-1',
+  moduleId: 'module-2-1',
+  slug: 'the-request-lifecycle',
+  number: 1,
+  title: 'Network Foundations',
+  description:
+    'Build a practical mental model of networks, IP addresses, IPv4 and IPv6, public and private addressing, ports, TCP, UDP and sockets, and apply it to browser, backend and distributed-service communication.',
+  estimatedMinutes: 55,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-1-1',
+      text: 'Explain what a computer network is and why applications on separate devices need networking to exchange data.',
+    },
+    {
+      id: 'objective-2-1-2',
+      text: 'Explain the role of an IP address in identifying a network interface or endpoint context and in guiding packets toward a destination.',
+    },
+    {
+      id: 'objective-2-1-3',
+      text: 'Distinguish IPv4 from IPv6 by address size, representation, address space and deployment considerations.',
+    },
+    {
+      id: 'objective-2-1-4',
+      text: 'Distinguish public IP addresses from private IPv4 addresses and explain the high-level role of NAT in sharing one public address.',
+    },
+    {
+      id: 'objective-2-1-5',
+      text: 'Explain how a port number identifies an application endpoint on a host and why an IP address alone is insufficient.',
+    },
+    {
+      id: 'objective-2-1-6',
+      text: 'Distinguish an IP address from a port number by naming what each identifies in a source or destination endpoint.',
+    },
+    {
+      id: 'objective-2-1-7',
+      text: 'Explain how IP address, transport protocol and port work together to identify a network application endpoint and a TCP flow.',
+    },
+    {
+      id: 'objective-2-1-8',
+      text: 'Describe TCP as a connection-oriented, reliable ordered byte-stream service and name two guarantees it provides.',
+    },
+    {
+      id: 'objective-2-1-9',
+      text: 'Walk through the TCP three-way handshake and explain how SYN, SYN-ACK and ACK establish connection state.',
+    },
+    {
+      id: 'objective-2-1-10',
+      text: 'Describe UDP as a connectionless datagram service and explain which guarantees it does not provide by itself.',
+    },
+    {
+      id: 'objective-2-1-11',
+      text: 'Compare TCP and UDP using file transfer, real-time media, DNS and QUIC scenarios, including application-level responsibilities.',
+    },
+    {
+      id: 'objective-2-1-12',
+      text: 'Explain how sockets let applications bind addresses and ports, listen, accept connections and send or receive transport data.',
+    },
+  ],
+  sectionIds: [
+    'section-2-1-1',
+    'section-2-1-2',
+    'section-2-1-3',
+    'section-2-1-4',
+    'section-2-1-5',
+    'section-2-1-6',
+    'section-2-1-7',
+    'section-2-1-8',
+    'section-2-1-9',
+    'section-2-1-10',
+    'section-2-1-11',
+    'section-2-1-12',
+    'section-2-1-13',
+    'section-2-1-14',
+    'section-2-1-15',
+    'section-2-1-16',
+  ],
+  diagramIds: [
+    'diagram-2-1-basic-network',
+    'diagram-2-1-ip-and-port',
+    'diagram-2-1-tcp-handshake',
+    'diagram-2-1-tcp-vs-udp',
+    'diagram-2-1-end-to-end-flow',
+  ],
+  codeExampleIds: [
+    'code-2-1-inspect-endpoint',
+    'code-2-1-tcp-listener',
+    'code-2-1-udp-datagram',
+  ],
+  comparisonIds: [
+    'comparison-2-1-ipv4-vs-ipv6',
+    'comparison-2-1-public-vs-private-ip',
+    'comparison-2-1-tcp-vs-udp',
+  ],
+  quizId: 'quiz-2-1',
+  practicalChallengeId: 'challenge-2-1',
+  summaryId: 'summary-2-1',
+}
+
+const httpDeepDive: Lesson = {
+  id: 'lesson-2-2',
+  moduleId: 'module-2-2',
+  slug: 'tcp-http-and-tls-fundamentals',
+  number: 1,
+  title: 'HTTP Deep Dive',
+  description:
+    'Follow HTTP from text-based HTTP/1.1 messages through binary HTTP/2 streams and QUIC-based HTTP/3, and learn how headers, compression, connection reuse and protocol negotiation shape real system design.',
+  estimatedMinutes: 60,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-2-1',
+      text: 'Explain HTTP as a stateless application-layer request-response protocol and separate its message semantics from the transport that carries it.',
+    },
+    {
+      id: 'objective-2-2-2',
+      text: 'Identify the method, request target, protocol version, headers and optional body in a request, and the status line, headers and body in a response.',
+    },
+    {
+      id: 'objective-2-2-3',
+      text: 'Describe the defining characteristics of HTTP/1.1, including text messages, the Host header and persistent connections, and explain its historical importance.',
+    },
+    {
+      id: 'objective-2-2-4',
+      text: 'Explain how persistent connections reuse one TCP connection for multiple exchanges and identify when a connection is closed.',
+    },
+    {
+      id: 'objective-2-2-5',
+      text: 'Explain what HTTP Keep-Alive controls, what overhead connection reuse removes and why it does not make requests concurrent on one HTTP/1.1 connection.',
+    },
+    {
+      id: 'objective-2-2-6',
+      text: 'Distinguish HTTP persistent connections from TCP keepalive probes by layer, purpose, mechanism and configuration.',
+    },
+    {
+      id: 'objective-2-2-7',
+      text: 'Explain HTTP/2 binary framing, streams, stream IDs and multiplexing, and describe how multiple exchanges share one connection.',
+    },
+    {
+      id: 'objective-2-2-8',
+      text: 'Describe how HPACK compresses HTTP/2 headers conceptually using static and dynamic tables, and distinguish it from response-body compression.',
+    },
+    {
+      id: 'objective-2-2-9',
+      text: 'Explain why packet loss on the underlying TCP connection can still delay unrelated HTTP/2 streams and identify this as transport-level head-of-line blocking.',
+    },
+    {
+      id: 'objective-2-2-10',
+      text: 'Describe how HTTP/3 uses QUIC over UDP with independent streams, integrated TLS 1.3 and connection migration without claiming UDP is inherently faster.',
+    },
+    {
+      id: 'objective-2-2-11',
+      text: 'Compare HTTP/1.1, HTTP/2 and HTTP/3 using technical trade-offs in framing, transport, multiplexing, header compression, loss behavior and deployment.',
+    },
+    {
+      id: 'objective-2-2-12',
+      text: 'Explain how protocol negotiation, connection behavior and infrastructure compatibility affect browser, API, CDN and load-balancer design decisions.',
+    },
+  ],
+  sectionIds: [
+    'section-2-2-1',
+    'section-2-2-2',
+    'section-2-2-3',
+    'section-2-2-4',
+    'section-2-2-5',
+    'section-2-2-6',
+    'section-2-2-7',
+    'section-2-2-8',
+    'section-2-2-9',
+    'section-2-2-10',
+    'section-2-2-11',
+    'section-2-2-12',
+    'section-2-2-13',
+    'section-2-2-14',
+    'section-2-2-15',
+  ],
+  diagramIds: [
+    'diagram-2-2-http11-request-flow',
+    'diagram-2-2-http2-multiplexing',
+    'diagram-2-2-http3-quic-streams',
+    'diagram-2-2-keepalive-lifecycle',
+    'diagram-2-2-version-comparison',
+  ],
+  codeExampleIds: [
+    'code-2-2-curl-versions',
+    'code-2-2-headers-example',
+    'code-2-2-aspnet-response-headers',
+  ],
+  comparisonIds: [
+    'comparison-2-2-http11-vs-http2',
+    'comparison-2-2-http2-vs-http3',
+    'comparison-2-2-persistent-vs-tcp-keepalive',
+  ],
+  quizId: 'quiz-2-2',
+  practicalChallengeId: 'challenge-2-2',
+  summaryId: 'summary-2-2',
+}
+
+const communicationPatterns: Lesson = {
+  id: 'lesson-2-3',
+  moduleId: 'module-2-3',
+  slug: 'routing-and-the-public-internet',
+  number: 1,
+  title: 'Communication Patterns',
+  description:
+    'Compare synchronous request-response and asynchronous deferred processing, learn how queues and status APIs fit into hybrid workflows, and choose communication patterns using latency, coupling, reliability and failure trade-offs.',
+  estimatedMinutes: 60,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-3-1',
+      text: 'Define a communication pattern in software architecture and explain why component interactions shape coupling, latency and reliability.',
+    },
+    {
+      id: 'objective-2-3-2',
+      text: 'Describe synchronous request-response communication and identify the caller, receiver, request, response and control flow in a realistic API example.',
+    },
+    {
+      id: 'objective-2-3-3',
+      text: 'Explain why a synchronous caller waits for a response and why waiting does not require a single-threaded server.',
+    },
+    {
+      id: 'objective-2-3-4',
+      text: 'Describe asynchronous communication as deferred processing in which work acceptance and final completion can happen at different times.',
+    },
+    {
+      id: 'objective-2-3-5',
+      text: 'Distinguish asynchronous execution inside one process from asynchronous communication between independent components.',
+    },
+    {
+      id: 'objective-2-3-6',
+      text: 'Explain the roles of producer, message, consumer, broker, acknowledgment and status observation in an asynchronous workflow.',
+    },
+    {
+      id: 'objective-2-3-7',
+      text: 'Compare synchronous and asynchronous patterns using latency, throughput, coupling, failure propagation, consistency and complexity.',
+    },
+    {
+      id: 'objective-2-3-8',
+      text: 'Identify synchronous failure scenarios such as timeouts, downstream outages and cascading failures across dependent calls.',
+    },
+    {
+      id: 'objective-2-3-9',
+      text: 'Explain eventual completion and describe how a client can observe status after asynchronous acceptance.',
+    },
+    {
+      id: 'objective-2-3-10',
+      text: 'Identify complexity introduced by asynchronous processing, including duplication, retries, ordering, poison messages and observability.',
+    },
+    {
+      id: 'objective-2-3-11',
+      text: 'Select a synchronous, asynchronous or hybrid pattern for a business requirement and justify the choice with explicit trade-offs.',
+    },
+    {
+      id: 'objective-2-3-12',
+      text: 'Explain how communication patterns affect reliability and scalability under workload growth and partial failures.',
+    },
+  ],
+  sectionIds: [
+    'section-2-3-1',
+    'section-2-3-2',
+    'section-2-3-3',
+    'section-2-3-4',
+    'section-2-3-5',
+    'section-2-3-6',
+    'section-2-3-7',
+    'section-2-3-8',
+    'section-2-3-9',
+    'section-2-3-10',
+    'section-2-3-11',
+    'section-2-3-12',
+    'section-2-3-13',
+    'section-2-3-14',
+    'section-2-3-15',
+    'section-2-3-16',
+  ],
+  diagramIds: [
+    'diagram-2-3-sync-request-response',
+    'diagram-2-3-async-queue',
+    'diagram-2-3-sync-critical-path',
+    'diagram-2-3-hybrid-order-workflow',
+    'diagram-2-3-pattern-decision-flow',
+  ],
+  codeExampleIds: [
+    'code-2-3-sync-service-call',
+    'code-2-3-accepted-background-job',
+    'code-2-3-awaited-vs-deferred-work',
+  ],
+  comparisonIds: [
+    'comparison-2-3-sync-vs-async',
+    'comparison-2-3-request-response-vs-fire-and-forget',
+    'comparison-2-3-sync-async-hybrid',
+  ],
+  quizId: 'quiz-2-3',
+  practicalChallengeId: 'challenge-2-3',
+  summaryId: 'summary-2-3',
+}
+
+const apiCommunication: Lesson = {
+  id: 'lesson-2-4',
+  moduleId: 'module-2-4',
+  slug: 'latency-bandwidth-and-failure-modes',
+  number: 1,
+  title: 'API Communication',
+  description:
+    'Compare REST resource APIs, GraphQL typed queries and gRPC service contracts, and choose an API style from client needs, compatibility, performance, streaming and operational constraints.',
+  estimatedMinutes: 65,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-4-1',
+      text: 'Explain how APIs mediate communication between software components and how API contracts shape system architecture.',
+    },
+    {
+      id: 'objective-2-4-2',
+      text: 'Describe REST as an architectural style using resources, identifiers, representations, statelessness and a uniform interface.',
+    },
+    {
+      id: 'objective-2-4-3',
+      text: 'Explain how HTTP methods, status codes and representations express REST resource operations with realistic endpoints.',
+    },
+    {
+      id: 'objective-2-4-4',
+      text: 'Identify REST benefits and limitations, including over-fetching, under-fetching, round trips and contract evolution.',
+    },
+    {
+      id: 'objective-2-4-5',
+      text: 'Explain GraphQL schema-driven contracts, object and scalar types, queries, mutations, arguments and resolvers.',
+    },
+    {
+      id: 'objective-2-4-6',
+      text: 'Describe how GraphQL clients select specific fields and why field selection does not automatically improve backend performance.',
+    },
+    {
+      id: 'objective-2-4-7',
+      text: 'Identify GraphQL benefits and operational challenges, including N+1 resolvers, query complexity, authorization, caching and schema evolution.',
+    },
+    {
+      id: 'objective-2-4-8',
+      text: 'Explain gRPC service definitions, Protocol Buffers messages, binary serialization and generated client/server contracts.',
+    },
+    {
+      id: 'objective-2-4-9',
+      text: 'Distinguish unary, server-streaming, client-streaming and bidirectional-streaming RPCs with realistic use cases.',
+    },
+    {
+      id: 'objective-2-4-10',
+      text: 'Compare REST, GraphQL and gRPC across API model, serialization, transport, caching, browser support, streaming and complexity.',
+    },
+    {
+      id: 'objective-2-4-11',
+      text: 'Select an appropriate API communication style for a scenario and defend the choice with explicit trade-offs.',
+    },
+    {
+      id: 'objective-2-4-12',
+      text: 'Explain how security, team skills, operational maturity and measurements influence API architecture decisions.',
+    },
+  ],
+  sectionIds: [
+    'section-2-4-1',
+    'section-2-4-2',
+    'section-2-4-3',
+    'section-2-4-4',
+    'section-2-4-5',
+    'section-2-4-6',
+    'section-2-4-7',
+    'section-2-4-8',
+    'section-2-4-9',
+    'section-2-4-10',
+    'section-2-4-11',
+    'section-2-4-12',
+    'section-2-4-13',
+    'section-2-4-14',
+    'section-2-4-15',
+    'section-2-4-16',
+  ],
+  diagramIds: [
+    'diagram-2-4-rest-resource-communication',
+    'diagram-2-4-graphql-query-execution',
+    'diagram-2-4-grpc-service-communication',
+    'diagram-2-4-grpc-streaming-types',
+    'diagram-2-4-multi-style-architecture',
+  ],
+  codeExampleIds: [
+    'code-2-4-rest-product-endpoint',
+    'code-2-4-graphql-schema-query',
+    'code-2-4-grpc-service-contract',
+  ],
+  comparisonIds: [
+    'comparison-2-4-rest-vs-graphql',
+    'comparison-2-4-rest-vs-grpc',
+    'comparison-2-4-graphql-vs-grpc',
+  ],
+  quizId: 'quiz-2-4',
+  practicalChallengeId: 'challenge-2-4',
+  summaryId: 'summary-2-4',
+}
+
+const realTimeCommunication: Lesson = {
+  id: 'lesson-2-5',
+  moduleId: 'module-2-5',
+  slug: 'choosing-the-right-protocol',
+  number: 1,
+  title: 'Real-Time Communication',
+  description:
+    'Compare long polling, WebSockets and Server-Sent Events, understand persistent connections and failure handling, and choose a real-time approach from communication direction, lifecycle, scale and operational constraints.',
+  estimatedMinutes: 70,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-5-1',
+      text: 'Explain why request-response communication forces clients to ask repeatedly and why some applications need updates without a new user action.',
+    },
+    {
+      id: 'objective-2-5-2',
+      text: 'Describe regular polling with a timeline and explain the trade-off between polling frequency, discovery delay and request overhead.',
+    },
+    {
+      id: 'objective-2-5-3',
+      text: 'Explain the five-step long polling lifecycle and distinguish it from regular polling and a permanent full-duplex connection.',
+    },
+    {
+      id: 'objective-2-5-4',
+      text: 'Describe the HTTP/1.1 WebSocket opening handshake, including Upgrade, Connection, Sec-WebSocket-Key and the 101 Switching Protocols response.',
+    },
+    {
+      id: 'objective-2-5-5',
+      text: 'Explain bidirectional message-based communication over a persistent WebSocket connection and recognise that HTTP/2 and HTTP/3 bootstrap WebSockets differently.',
+    },
+    {
+      id: 'objective-2-5-6',
+      text: 'Describe Server-Sent Events as a one-way server-to-client text stream using EventSource and text/event-stream.',
+    },
+    {
+      id: 'objective-2-5-7',
+      text: 'Interpret an SSE event stream using id, event, data, retry and blank-line separators, and explain why reconnection does not guarantee replay.',
+    },
+    {
+      id: 'objective-2-5-8',
+      text: 'Compare WebSockets, SSE and Long Polling across communication direction, connection lifecycle, reconnection, overhead and scaling.',
+    },
+    {
+      id: 'objective-2-5-9',
+      text: 'Explain heartbeats, ping/pong control frames, exponential backoff, sequence IDs and why reconnecting does not automatically recover missed messages.',
+    },
+    {
+      id: 'objective-2-5-10',
+      text: 'Identify scaling concerns for persistent connections, including connection count, memory, file descriptors, load balancers, sticky sessions, pub/sub fan-out and slow consumers.',
+    },
+    {
+      id: 'objective-2-5-11',
+      text: 'Select WebSockets, SSE, Long Polling or regular polling for a scenario and justify the choice from direction, immediacy and constraints.',
+    },
+    {
+      id: 'objective-2-5-12',
+      text: 'Identify security and operational considerations, including TLS, authentication, per-message authorization, origin validation, rate limits, monitoring and graceful shutdown.',
+    },
+  ],
+  sectionIds: [
+    'section-2-5-1',
+    'section-2-5-2',
+    'section-2-5-3',
+    'section-2-5-4',
+    'section-2-5-5',
+    'section-2-5-6',
+    'section-2-5-7',
+    'section-2-5-8',
+    'section-2-5-9',
+    'section-2-5-10',
+    'section-2-5-11',
+    'section-2-5-12',
+    'section-2-5-13',
+    'section-2-5-14',
+    'section-2-5-15',
+    'section-2-5-16',
+  ],
+  diagramIds: [
+    'diagram-2-5-polling-vs-long-polling',
+    'diagram-2-5-websocket-handshake-and-full-duplex',
+    'diagram-2-5-sse-event-stream',
+    'diagram-2-5-websocket-horizontal-scaling',
+    'diagram-2-5-realtime-decision-flow',
+  ],
+  codeExampleIds: [
+    'code-2-5-browser-websocket-client',
+    'code-2-5-eventsource-client',
+    'code-2-5-aspnetcore-sse-endpoint',
+  ],
+  comparisonIds: [
+    'comparison-2-5-websockets-vs-sse',
+    'comparison-2-5-sse-vs-long-polling',
+    'comparison-2-5-websockets-vs-long-polling',
+  ],
+  quizId: 'quiz-2-5',
+  practicalChallengeId: 'challenge-2-5',
+  summaryId: 'summary-2-5',
+}
+
+const loadBalancing: Lesson = {
+  id: 'lesson-2-6',
+  moduleId: 'module-2-6',
+  slug: 'dns-and-name-resolution',
+  number: 1,
+  title: 'Load Balancing',
+  description:
+    'Explain how load balancers distribute traffic across application instances, compare Layer 4 and Layer 7 decisions, evaluate distribution algorithms and design health checks and high availability for changing backend capacity.',
+  estimatedMinutes: 75,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-6-1',
+      text: 'Explain why load balancing is needed in distributed applications and why adding servers alone does not distribute traffic.',
+    },
+    {
+      id: 'objective-2-6-2',
+      text: 'Describe the request flow through a load balancer, distinguishing the client-to-load-balancer connection from load-balancer-to-backend connections.',
+    },
+    {
+      id: 'objective-2-6-3',
+      text: 'Distinguish Layer 4 transport forwarding from Layer 7 application-aware routing using protocol awareness and TLS behaviour.',
+    },
+    {
+      id: 'objective-2-6-4',
+      text: 'Explain how Round Robin selects backends sequentially and why equal request counts do not imply equal workload.',
+    },
+    {
+      id: 'objective-2-6-5',
+      text: 'Explain how Weighted Round Robin expresses different backend capacities and when weights are useful.',
+    },
+    {
+      id: 'objective-2-6-6',
+      text: 'Explain how Least Connections selects a backend with the fewest active connections and identify its limitations as a load proxy.',
+    },
+    {
+      id: 'objective-2-6-7',
+      text: 'Describe IP hashing and session affinity, including uneven distribution, NAT effects and remapping when a backend is removed.',
+    },
+    {
+      id: 'objective-2-6-8',
+      text: 'Explain active health checks, health endpoints, intervals, timeouts, failure thresholds and recovery thresholds.',
+    },
+    {
+      id: 'objective-2-6-9',
+      text: 'Distinguish active health checks from passive health monitoring and describe what each can detect.',
+    },
+    {
+      id: 'objective-2-6-10',
+      text: 'Describe the lifecycle of an unhealthy backend and explain how removal can overload the remaining pool.',
+    },
+    {
+      id: 'objective-2-6-11',
+      text: 'Identify load balancer availability risks, redundancy options, failover, capacity planning and connection draining.',
+    },
+    {
+      id: 'objective-2-6-12',
+      text: 'Select a load-balancing layer, algorithm and health-check strategy for a workload and justify the trade-offs.',
+    },
+  ],
+  sectionIds: [
+    'section-2-6-1',
+    'section-2-6-2',
+    'section-2-6-3',
+    'section-2-6-4',
+    'section-2-6-5',
+    'section-2-6-6',
+    'section-2-6-7',
+    'section-2-6-8',
+    'section-2-6-9',
+    'section-2-6-10',
+    'section-2-6-11',
+    'section-2-6-12',
+    'section-2-6-13',
+    'section-2-6-14',
+    'section-2-6-15',
+    'section-2-6-16',
+  ],
+  diagramIds: [
+    'diagram-2-6-basic-load-balancing-architecture',
+    'diagram-2-6-l4-vs-l7-routing',
+    'diagram-2-6-algorithm-comparison',
+    'diagram-2-6-health-check-recovery',
+    'diagram-2-6-high-availability-architecture',
+  ],
+  codeExampleIds: [
+    'code-2-6-round-robin-rotation',
+    'code-2-6-weighted-round-robin',
+    'code-2-6-aspnetcore-health-checks',
+  ],
+  comparisonIds: [
+    'comparison-2-6-l4-vs-l7',
+    'comparison-2-6-algorithms',
+    'comparison-2-6-active-vs-passive-health-checks',
+  ],
+  quizId: 'quiz-2-6',
+  practicalChallengeId: 'challenge-2-6',
+  summaryId: 'summary-2-6',
+}
+
+const reverseProxy: Lesson = {
+  id: 'lesson-2-7',
+  moduleId: 'module-2-7',
+  slug: 'streaming-and-long-lived-connections',
+  number: 1,
+  title: 'Reverse Proxy',
+  description:
+    'Explain forward and reverse proxies, follow a request through an Nginx-style reverse proxy, compare TLS termination with passthrough, and distinguish reverse proxies from API gateways when designing a production entry point.',
+  estimatedMinutes: 80,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-2-7-1',
+      text: 'Explain what a proxy server is and how an intermediary changes request and response flow.',
+    },
+    {
+      id: 'objective-2-7-2',
+      text: 'Distinguish forward proxies from reverse proxies by who configures them and whose side they represent.',
+    },
+    {
+      id: 'objective-2-7-3',
+      text: 'Trace an incoming request through DNS, a reverse proxy, routing rules, an upstream backend and the response path.',
+    },
+    {
+      id: 'objective-2-7-4',
+      text: 'Compare TLS termination with TLS passthrough and state the security and visibility consequences of each.',
+    },
+    {
+      id: 'objective-2-7-5',
+      text: 'Describe how Nginx uses listeners, server blocks, location matching, proxy_pass and upstream groups to forward requests.',
+    },
+    {
+      id: 'objective-2-7-6',
+      text: 'Explain why original host, scheme and client IP information can be lost and how forwarded headers preserve it.',
+    },
+    {
+      id: 'objective-2-7-7',
+      text: 'Apply trust boundaries to forwarded headers so arbitrary clients cannot spoof client identity or scheme.',
+    },
+    {
+      id: 'objective-2-7-8',
+      text: 'Explain how path and host routing select backend pools without repeating detailed load-balancing algorithms.',
+    },
+    {
+      id: 'objective-2-7-9',
+      text: 'Distinguish a basic reverse proxy from an API gateway by responsibilities rather than product names.',
+    },
+    {
+      id: 'objective-2-7-10',
+      text: 'Identify common API gateway responsibilities such as policy enforcement, rate limiting, transformation and observability.',
+    },
+    {
+      id: 'objective-2-7-11',
+      text: 'Evaluate security, performance and availability considerations when placing a proxy in the request path.',
+    },
+    {
+      id: 'objective-2-7-12',
+      text: 'Design and justify a basic proxy architecture for a production web application with explicit assumptions and alternatives.',
+    },
+  ],
+  sectionIds: [
+    'section-2-7-1',
+    'section-2-7-2',
+    'section-2-7-3',
+    'section-2-7-4',
+    'section-2-7-5',
+    'section-2-7-6',
+    'section-2-7-7',
+    'section-2-7-8',
+    'section-2-7-9',
+    'section-2-7-10',
+    'section-2-7-11',
+    'section-2-7-12',
+    'section-2-7-13',
+    'section-2-7-14',
+    'section-2-7-15',
+    'section-2-7-16',
+  ],
+  diagramIds: [
+    'diagram-2-7-forward-vs-reverse-proxy',
+    'diagram-2-7-reverse-proxy-request-lifecycle',
+    'diagram-2-7-tls-termination-vs-passthrough',
+    'diagram-2-7-api-gateway-vs-reverse-proxy',
+    'diagram-2-7-production-request-path',
+  ],
+  codeExampleIds: [
+    'code-2-7-nginx-reverse-proxy',
+    'code-2-7-aspnetcore-forwarded-headers',
+    'code-2-7-yarp-route-concept',
+  ],
+  comparisonIds: [
+    'comparison-2-7-forward-vs-reverse-proxy',
+    'comparison-2-7-reverse-proxy-vs-api-gateway',
+    'comparison-2-7-tls-termination-vs-passthrough',
+  ],
+  quizId: 'quiz-2-7',
+  practicalChallengeId: 'challenge-2-7',
+  summaryId: 'summary-2-7',
+}
+
+/** One lesson per approved module topic; Domain 01 through 1.6 and Domain 02 through 2.7 have content. */
 export const lessons: Lesson[] = [
   whatIsSystemDesign,
   clientServerArchitecture,
   webFundamentals,
+  apis,
+  performanceBasics,
+  architectureStyles,
+  networkFoundations,
+  httpDeepDive,
+  communicationPatterns,
+  apiCommunication,
+  realTimeCommunication,
+  loadBalancing,
+  reverseProxy,
 
   // Domain 01 — System Design Fundamentals
 
-  plannedLesson('module-1-4', 'trade-offs-and-design-decisions', 'Trade-offs and Design Decisions', 'Explain why every design choice gives up something in exchange for something else.'),
-  plannedLesson('module-1-5', 'sketching-your-first-design', 'Sketching Your First Design', 'Turn requirements and building blocks into a first, defensible architecture sketch.'),
-  plannedLesson('module-1-6', 'back-of-the-envelope-scale-estimation', 'Back-of-the-Envelope Scale Estimation', 'Use rough numbers for users, traffic and storage to size a design before committing to it.'),
   plannedLesson('module-1-7', 'reviewing-and-iterating-on-designs', 'Reviewing and Iterating on Designs', 'Check a sketch against requirements, expose weak points and improve it deliberately.'),
 
   // Domain 02 — Networking & Communication
-  plannedLesson('module-2-1', 'the-request-lifecycle', 'The Request Lifecycle', 'Follow a request from DNS lookup through the network and back to the client.'),
-  plannedLesson('module-2-2', 'tcp-http-and-tls-fundamentals', 'TCP, HTTP, and TLS Fundamentals', 'Understand the protocols that carry and secure requests.'),
-  plannedLesson('module-2-3', 'routing-and-the-public-internet', 'Routing and the Public Internet', 'See how packets find their way across networks and where routing matters.'),
-  plannedLesson('module-2-4', 'latency-bandwidth-and-failure-modes', 'Latency, Bandwidth, and Failure Modes', 'Locate where time is spent and how networks fail in practice.'),
-  plannedLesson('module-2-5', 'choosing-the-right-protocol', 'Choosing the Right Protocol', 'Match protocol choices to the needs of the interaction.'),
-  plannedLesson('module-2-6', 'dns-and-name-resolution', 'DNS and Name Resolution', 'Resolve human-readable names into addresses and understand where resolution adds latency and failure risk.'),
-  plannedLesson('module-2-7', 'streaming-and-long-lived-connections', 'Streaming and Long-Lived Connections', 'Compare WebSockets, server-sent events and streaming HTTP for interactions that outlive a single request.'),
 
   // Domain 03 — Database Design & Data Management
   plannedLesson('module-3-1', 'relational-vs-nosql-models', 'Relational vs NoSQL Models', 'Compare storage models and choose one that fits the access pattern.'),

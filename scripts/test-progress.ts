@@ -44,7 +44,7 @@ test('initial progress is empty and never fabricated', () => {
 
   const overall = service.getOverallProgress()
   assert.equal(overall.totalLessons, 67)
-  assert.equal(overall.publishedLessons, 3)
+  assert.equal(overall.publishedLessons, 12)
   assert.equal(overall.completedLessons, 0)
   assert.equal(overall.inProgressLessons, 0)
   assert.equal(overall.completionPercent, 0)
@@ -188,6 +188,337 @@ test('third published lesson is tracked independently of both earlier lessons', 
   assert.equal(service.getLessonProgress('lesson-1-3')?.status, 'completed')
   assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
   assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+})
+
+test('fourth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-1-4')
+
+  assert.equal(service.getLessonProgress('lesson-1-4')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-1-4'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-1-4',
+    lessonId: 'lesson-1-4',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 100,
+  })
+  assert.equal(service.getLessonProgress('lesson-1-4')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-1-4')?.passed, true)
+  assert.equal(service.getQuizProgress('quiz-1-3'), undefined)
+
+  service.completeLesson('lesson-1-4')
+  assert.equal(service.getLessonProgress('lesson-1-4')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+})
+
+test('fifth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-1-5')
+
+  assert.equal(service.getLessonProgress('lesson-1-5')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-1-5'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-1-5',
+    lessonId: 'lesson-1-5',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 95,
+  })
+  assert.equal(service.getLessonProgress('lesson-1-5')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-1-5')?.passed, true)
+  assert.equal(service.getQuizProgress('quiz-1-4'), undefined)
+
+  service.completeLesson('lesson-1-5')
+  assert.equal(service.getLessonProgress('lesson-1-5')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+})
+
+test('sixth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-1-6')
+
+  assert.equal(service.getLessonProgress('lesson-1-6')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-1-6'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-1-6',
+    lessonId: 'lesson-1-6',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 105,
+  })
+  assert.equal(service.getLessonProgress('lesson-1-6')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-1-6')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-1-6'), 100)
+  assert.equal(service.getQuizProgress('quiz-1-5'), undefined)
+
+  service.completeLesson('lesson-1-6')
+  assert.equal(service.getLessonProgress('lesson-1-6')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+})
+
+test('seventh published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-2-1')
+
+  assert.equal(service.getLessonProgress('lesson-2-1')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-2-1'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-2-1',
+    lessonId: 'lesson-2-1',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 110,
+  })
+  assert.equal(service.getLessonProgress('lesson-2-1')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-2-1')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-2-1'), 100)
+  assert.equal(service.getQuizProgress('quiz-1-6'), undefined)
+
+  service.completeLesson('lesson-2-1')
+  assert.equal(service.getLessonProgress('lesson-2-1')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+})
+
+test('eighth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-2-2')
+
+  assert.equal(service.getLessonProgress('lesson-2-2')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-2-2'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-2-2',
+    lessonId: 'lesson-2-2',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 120,
+  })
+  assert.equal(service.getLessonProgress('lesson-2-2')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-2-2')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-2-2'), 100)
+  assert.equal(service.getQuizProgress('quiz-2-1'), undefined)
+
+  service.completeLesson('lesson-2-2')
+  assert.equal(service.getLessonProgress('lesson-2-2')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+})
+
+test('ninth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-2-3')
+
+  assert.equal(service.getLessonProgress('lesson-2-3')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-2'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-2-3'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-2-3',
+    lessonId: 'lesson-2-3',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 120,
+  })
+  assert.equal(service.getLessonProgress('lesson-2-3')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-2-3')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-2-3'), 100)
+  assert.equal(service.getQuizProgress('quiz-2-2'), undefined)
+
+  service.completeLesson('lesson-2-3')
+  assert.equal(service.getLessonProgress('lesson-2-3')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-2'), undefined)
+})
+
+test('tenth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-2-4')
+
+  assert.equal(service.getLessonProgress('lesson-2-4')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-3'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-2-4'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-2-4',
+    lessonId: 'lesson-2-4',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 120,
+  })
+  assert.equal(service.getLessonProgress('lesson-2-4')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-2-4')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-2-4'), 100)
+  assert.equal(service.getQuizProgress('quiz-2-3'), undefined)
+
+  service.completeLesson('lesson-2-4')
+  assert.equal(service.getLessonProgress('lesson-2-4')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-2-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-2'), undefined)
+})
+
+test('eleventh published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-2-5')
+
+  assert.equal(service.getLessonProgress('lesson-2-5')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-3'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-2-5'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-2-5',
+    lessonId: 'lesson-2-5',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 120,
+  })
+  assert.equal(service.getLessonProgress('lesson-2-5')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-2-5')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-2-5'), 100)
+  assert.equal(service.getQuizProgress('quiz-2-4'), undefined)
+
+  service.completeLesson('lesson-2-5')
+  assert.equal(service.getLessonProgress('lesson-2-5')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-2-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-3'), undefined)
+})
+
+test('twelfth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-2-6')
+
+  assert.equal(service.getLessonProgress('lesson-2-6')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-3'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-4'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-1-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-2'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-3'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-2-6'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-2-6',
+    lessonId: 'lesson-2-6',
+    score: 100,
+    correctAnswers: 5,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 120,
+  })
+  assert.equal(service.getLessonProgress('lesson-2-6')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-2-6')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-2-6'), 100)
+  assert.equal(service.getQuizProgress('quiz-2-5'), undefined)
+
+  service.completeLesson('lesson-2-6')
+  assert.equal(service.getLessonProgress('lesson-2-6')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-2-5'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-4'), undefined)
 })
 
 test('invalid lesson and quiz ids never create progress records', () => {
