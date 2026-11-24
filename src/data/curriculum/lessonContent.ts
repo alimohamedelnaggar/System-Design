@@ -7020,6 +7020,9 @@ export const codeExamples: CodeExample[] = [
     explanation:
       'This compact YARP-style illustration matches /api/products and its subpaths, then forwards them to the product-api destination. A route maps a public path to a cluster, and a cluster lists destinations that can receive traffic. This is only the routing part of a gateway: a production API gateway may also need authentication integration, authorization, transformations, rate limits, health checks, retries and API-specific observability. A simple route proxy is not a complete gateway just because it forwards API paths.',
   },
+]
+
+export const comparisons: Comparison[] = [
   {
     id: 'comparison-2-7-forward-vs-reverse-proxy',
     title: 'Forward proxy vs reverse proxy',
@@ -7240,9 +7243,6 @@ export const codeExamples: CodeExample[] = [
       },
     ],
   },
-]
-
-export const comparisons: Comparison[] = [
   {
     id: 'comparison-1-1-functional-vs-nonfunctional',
     title: 'Functional vs non-functional requirements',

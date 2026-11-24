@@ -106,7 +106,7 @@ test('module and lesson counts agree for every domain', () => {
   }
 })
 
-test('twelve published lessons remain and all other lessons are planned', () => {
+test('thirteen published lessons remain and all other lessons are planned', () => {
   const published = lessons.filter((lesson) => lesson.status === 'published')
   const planned = lessons.filter((lesson) => lesson.status === 'planned')
   assert.equal(published.length, BLUEPRINT_PUBLISHED_LESSONS)
@@ -124,6 +124,7 @@ test('twelve published lessons remain and all other lessons are planned', () => 
     'lesson-2-4',
     'lesson-2-5',
     'lesson-2-6',
+    'lesson-2-7',
   ])
   assert.ok(planned.every((lesson) => lesson.sectionIds.length === 0 && lesson.quizId === null))
 })
@@ -297,6 +298,7 @@ test('getNextLesson walks across modules and domains', () => {
   assert.equal(getNextLesson('lesson-2-4')?.id, 'lesson-2-5')
   assert.equal(getNextLesson('lesson-2-5')?.id, 'lesson-2-6')
   assert.equal(getNextLesson('lesson-2-6')?.id, 'lesson-2-7')
+  assert.equal(getNextLesson('lesson-2-7')?.id, 'lesson-3-1')
   assert.equal(getNextLesson('lesson-8-13'), undefined)
   assert.equal(getNextLesson('unknown'), undefined)
 })
@@ -313,6 +315,8 @@ test('getPreviousLesson walks backwards across modules and domains', () => {
   assert.equal(getPreviousLesson('lesson-2-4')?.id, 'lesson-2-3')
   assert.equal(getPreviousLesson('lesson-2-5')?.id, 'lesson-2-4')
   assert.equal(getPreviousLesson('lesson-2-6')?.id, 'lesson-2-5')
+  assert.equal(getPreviousLesson('lesson-2-7')?.id, 'lesson-2-6')
+  assert.equal(getPreviousLesson('lesson-3-1')?.id, 'lesson-2-7')
   assert.equal(getPreviousLesson('lesson-1-1'), undefined)
   assert.equal(getPreviousLesson('unknown'), undefined)
 })
@@ -1207,14 +1211,14 @@ test('eighth lesson quiz, challenge and summary are complete without a simulatio
   assert.equal(getSimulationBySlug(simulationSlug), undefined)
 })
 
-test('content stores contain exactly the twelve published lessons without mixing their blocks', () => {
-  assert.equal(lessonSections.length, 178)
-  assert.equal(diagrams.length, 54)
-  assert.equal(codeExamples.length, 35)
-  assert.equal(comparisons.length, 32)
-  assert.equal(quizzes.length, 12)
-  assert.equal(practicalChallenges.length, 12)
-  assert.equal(lessonSummaries.length, 12)
+test('content stores contain exactly the thirteen published lessons without mixing their blocks', () => {
+  assert.equal(lessonSections.length, 194)
+  assert.equal(diagrams.length, 59)
+  assert.equal(codeExamples.length, 38)
+  assert.equal(comparisons.length, 35)
+  assert.equal(quizzes.length, 13)
+  assert.equal(practicalChallenges.length, 13)
+  assert.equal(lessonSummaries.length, 13)
 
   const first = getLessonBySlug('what-is-system-design')
   const second = getLessonBySlug('requirements-and-constraints')
@@ -1228,8 +1232,9 @@ test('content stores contain exactly the twelve published lessons without mixing
   const tenth = getLessonBySlug('latency-bandwidth-and-failure-modes')
   const eleventh = getLessonBySlug('choosing-the-right-protocol')
   const twelfth = getLessonBySlug('dns-and-name-resolution')
-  assert.ok(first && second && third && fourth && fifth && sixth && seventh && eighth && ninth && tenth && eleventh && twelfth)
-  const blockSets = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth].map((lesson) => [
+  const thirteenth = getLessonBySlug('streaming-and-long-lived-connections')
+  assert.ok(first && second && third && fourth && fifth && sixth && seventh && eighth && ninth && tenth && eleventh && twelfth && thirteenth)
+  const blockSets = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth].map((lesson) => [
     lesson.sectionIds,
     lesson.diagramIds,
     lesson.codeExampleIds,
@@ -2040,10 +2045,10 @@ test('sixth lesson code examples and comparisons are complete and referenced cor
 })
 
 test('published quizzes target the final standard with five four-option questions', () => {
-  assert.equal(quizzes.length, 12)
+  assert.equal(quizzes.length, 13)
   assert.deepEqual(
     quizzes.map((quiz) => quiz.id),
-    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6'],
+    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7'],
   )
   for (const quiz of quizzes) {
     assert.equal(quiz.standard, 'final')
@@ -2256,8 +2261,8 @@ test('eighth lesson quiz resolves back to the HTTP Deep Dive lesson', () => {
 test('first lesson challenge, summary and simulation link are complete and resolvable', () => {
   const lesson = getLessonBySlug('what-is-system-design')
   assert.ok(lesson)
-  assert.equal(practicalChallenges.length, 12)
-  assert.equal(lessonSummaries.length, 12)
+  assert.equal(practicalChallenges.length, 13)
+  assert.equal(lessonSummaries.length, 13)
 
   const challenge = practicalChallenges.find((candidate) => candidate.id === lesson.practicalChallengeId)
   assert.ok(challenge)
@@ -3394,6 +3399,167 @@ test('twelfth lesson quiz, challenge and summary are complete without a simulati
   const simulationSlug = lesson.metadata?.simulationSlug
   assert.equal(simulationSlug, undefined)
   assert.equal(getSimulationBySlug(simulationSlug), undefined)
+})
+
+test('Module 2.7 publishes the complete Reverse Proxy lesson with preserved canonical identity', () => {
+  const lesson = getLessonBySlug('streaming-and-long-lived-connections')
+  assert.ok(lesson)
+  assert.equal(lesson.id, 'lesson-2-7')
+  assert.equal(lesson.moduleId, 'module-2-7')
+  assert.equal(lesson.slug, 'streaming-and-long-lived-connections')
+  assert.equal(lesson.title, 'Reverse Proxy')
+  assert.equal(lesson.status, 'published')
+  assert.equal(lesson.order, 1)
+  assert.equal(lesson.number, 1)
+  assert.equal(lesson.learningObjectives.length, 12)
+  assert.equal(new Set(lesson.learningObjectives.map((objective) => objective.id)).size, 12)
+  assert.ok(lesson.learningObjectives.every((objective) => objective.text.trim().length > 20))
+
+  const content = getLessonContent(lesson.slug)
+  const sections = content.sections
+  assert.deepEqual(
+    sections.map((section) => section.title),
+    [
+      'Introduction: Why Do We Need Proxies?',
+      'What Is a Proxy Server?',
+      'Forward Proxy: Representing the Client',
+      'Reverse Proxy: Representing the Server',
+      'Forward Proxy vs Reverse Proxy',
+      'Reverse Proxy Architecture and Request Flow',
+      'TLS Termination and HTTPS Handling',
+      'Nginx as a Reverse Proxy',
+      'Important Nginx Proxy Headers',
+      'Reverse Proxy Routing and Load Distribution',
+      'What Is an API Gateway?',
+      'API Gateway vs Reverse Proxy',
+      'Reverse Proxies in Modern Architectures',
+      'Security, Performance, and Reliability',
+      'Real-World Architecture and Design Decisions',
+      'Common Mistakes and Key Takeaways',
+    ],
+  )
+  assert.deepEqual(
+    sections.map((section) => section.order),
+    Array.from({ length: 16 }, (_, index) => index + 1),
+  )
+  assert.ok(sections.every((section) => section.paragraphs.length > 0))
+  assert.equal(sections[0]?.kind, 'introduction')
+  assert.equal(sections[4]?.kind, 'tradeoffs')
+  assert.equal(sections[5]?.kind, 'process')
+  assert.equal(sections[5]?.steps?.length, 9)
+  assert.equal(sections[6]?.kind, 'tradeoffs')
+  assert.equal(sections[9]?.kind, 'tradeoffs')
+  assert.equal(sections[11]?.kind, 'tradeoffs')
+  assert.equal(sections[13]?.kind, 'tradeoffs')
+  assert.equal(sections[14]?.kind, 'tradeoffs')
+  assert.equal(sections[15]?.kind, 'mistakes')
+  assert.equal(sections[15]?.commonMistakes?.length, 9)
+  assert.ok(sections[15]?.paragraphs.join(' ').includes('X-Forwarded-For'))
+
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.id),
+    [
+      'diagram-2-7-forward-vs-reverse-proxy',
+      'diagram-2-7-reverse-proxy-request-lifecycle',
+      'diagram-2-7-tls-termination-vs-passthrough',
+      'diagram-2-7-api-gateway-vs-reverse-proxy',
+      'diagram-2-7-production-request-path',
+    ],
+  )
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.layout),
+    ['comparison', 'flow', 'layers', 'comparison', 'topology'],
+  )
+  assert.ok(content.diagrams.every((diagram) => diagram.nodes.length >= 7 && diagram.edges.length >= 7))
+  assert.ok(
+    content.diagrams.every((diagram) =>
+      diagram.edges.every(
+        (edge) =>
+          diagram.nodes.some((node) => node.id === edge.source) &&
+          diagram.nodes.some((node) => node.id === edge.target),
+      ),
+    ),
+  )
+
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.id),
+    [
+      'code-2-7-nginx-reverse-proxy',
+      'code-2-7-aspnetcore-forwarded-headers',
+      'code-2-7-yarp-route-concept',
+    ],
+  )
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.language),
+    ['text', 'text', 'json'],
+  )
+  assert.ok(content.codeExamples.every((example) => example.code.split('\n').length <= 16))
+  assert.ok(content.codeExamples[0]?.code.includes('proxy_pass http://app_backend;'))
+  assert.ok(content.codeExamples[0]?.code.includes('$proxy_add_x_forwarded_for'))
+  assert.ok(content.codeExamples[1]?.code.includes('KnownProxies.Add'))
+  assert.ok(content.codeExamples[1]?.code.includes('KnownNetworks.Add'))
+  assert.ok(content.codeExamples[1]?.code.includes('app.UseForwardedHeaders();'))
+  assert.ok(content.codeExamples[2]?.code.includes('/api/products/{**catch-all}'))
+
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.id),
+    [
+      'comparison-2-7-forward-vs-reverse-proxy',
+      'comparison-2-7-reverse-proxy-vs-api-gateway',
+      'comparison-2-7-tls-termination-vs-passthrough',
+    ],
+  )
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.rows.length),
+    [7, 9, 7],
+  )
+  assert.ok(content.comparisons.every((comparison) => comparison.columns.length === 2))
+  assert.ok(
+    content.comparisons.every((comparison) =>
+      comparison.rows.every((row) => comparison.columns.every((column) => (row.values[column.id] ?? '').length > 0)),
+    ),
+  )
+
+  const quiz = content.quiz
+  assert.ok(quiz)
+  assert.equal(quiz.id, 'quiz-2-7')
+  assert.equal(quiz.title, 'Reverse Proxy: Final Assessment')
+  assert.equal(quiz.standard, 'final')
+  assert.equal(quiz.passThreshold, 0.8)
+  assert.deepEqual(checkQuizStandard(quiz), [])
+  assert.equal(quiz.questions.length, 5)
+  assert.ok(quiz.questions.every((question) => question.options.length === 4))
+  assert.ok(quiz.questions.every((question) => question.options.filter((option) => option.isCorrect).length === 1))
+  assert.ok(quiz.questions.every((question) => question.options.every((option) => (option.explanation ?? '').trim().length > 0)))
+  assert.ok(quiz.questions.every((question) => (question.explanation ?? '').trim().length > 0))
+  assert.deepEqual(
+    quiz.questions.map((question) => question.options.findIndex((option) => option.isCorrect)),
+    [2, 0, 3, 1, 2],
+  )
+
+  const challenge = content.practicalChallenge
+  assert.ok(challenge)
+  assert.equal(challenge.id, 'challenge-2-7')
+  assert.equal(challenge.title, 'Design the Entry Point for a Production E-Commerce Platform')
+  assert.ok(challenge.scenario.includes('Angular web frontend'))
+  assert.ok(challenge.scenario.includes('https://shop.example.com'))
+  assert.equal(challenge.requirements.length, 11)
+  assert.equal(challenge.constraints.length, 7)
+  assert.equal(challenge.deliverables.length, 6)
+  assert.equal(challenge.hints?.length, 11)
+  assert.ok(challenge.requirements.some((requirement) => requirement.includes('trusted proxy boundaries')))
+  assert.ok(challenge.hints?.some((hint) => hint.includes('There is no single acceptable architecture')))
+
+  const summary = content.summary
+  assert.ok(summary)
+  assert.equal(summary.id, 'summary-2-7')
+  assert.ok(summary.overview.includes('Forward proxies'))
+  assert.equal(summary.keyTakeaways.length, 20)
+  assert.ok(summary.nextSteps && summary.nextSteps.length >= 2)
+
+  assert.equal(lesson.metadata?.simulationSlug, undefined)
+  assert.equal(getSimulationBySlug(lesson.metadata?.simulationSlug), undefined)
+  assert.equal(getLessonBySlug('relational-vs-nosql-models')?.status, 'planned')
 })
 
 test('curriculum validation reports no issues', () => {
