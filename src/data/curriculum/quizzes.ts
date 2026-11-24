@@ -2420,4 +2420,394 @@ export const quizzes: Quiz[] = [
       },
     ],
   },
+  {
+    id: 'quiz-3-1',
+    title: 'Database Fundamentals: Final Assessment',
+    description:
+      'Five scenario-based questions on database and DBMS fundamentals, relational keys and relationships, non-relational models, architectural trade-offs and requirements-driven selection.',
+    passThreshold: 0.8,
+    standard: 'final',
+    questions: [
+      {
+        id: 'quiz-3-1-q1',
+        prompt:
+          'A developer says, “PostgreSQL is our database, so the tables it stores are our data model.” Which distinction is accurate?',
+        options: [
+          {
+            id: 'quiz-3-1-q1-a',
+            label: 'The database is the DBMS software, while the data model is the physical disk where records are stored.',
+            isCorrect: false,
+            explanation:
+              'The DBMS is the software that manages data; the physical storage device is not the data model.',
+          },
+          {
+            id: 'quiz-3-1-q1-b',
+            label: 'The database is the organized collection of persisted data, the DBMS is the software that manages it, and the data model is the conceptual structure of the data.',
+            isCorrect: true,
+            explanation:
+              'These are three separate ideas. The collection, the managing software and the conceptual shape should not be conflated.',
+          },
+          {
+            id: 'quiz-3-1-q1-c',
+            label: 'The data model is the query language, so a system without SQL does not have a data model.',
+            isCorrect: false,
+            explanation:
+              'A query language is not the same as a data model. Non-relational systems have models even when they do not use SQL.',
+          },
+          {
+            id: 'quiz-3-1-q1-d',
+            label: 'Products such as PostgreSQL and MongoDB are data models, while the word database only refers to a server process.',
+            isCorrect: false,
+            explanation:
+              'Those products are DBMS examples that illustrate categories. A database is the organized data itself.',
+          },
+        ],
+        explanation:
+          'Precise vocabulary matters: database, DBMS and data model describe the stored collection, the managing software and the conceptual structure respectively.',
+      },
+      {
+        id: 'quiz-3-1-q2',
+        prompt:
+          'An Orders table has OrderID as its identifier and stores CustomerID, which matches CustomerID in the Customers table. What does this design describe?',
+        options: [
+          {
+            id: 'quiz-3-1-q2-a',
+            label: 'CustomerID in Orders is another primary key because every order must contain a customer.',
+            isCorrect: false,
+            explanation:
+              'A primary key identifies rows in its own table. CustomerID identifies a customer row, not the order row.',
+          },
+          {
+            id: 'quiz-3-1-q2-b',
+            label: 'The two tables cannot represent a many-to-many relationship without merging all records into one table.',
+            isCorrect: false,
+            explanation:
+              'Many-to-many relationships can be represented with a junction table such as OrderItems containing two foreign keys.',
+          },
+          {
+            id: 'quiz-3-1-q2-c',
+            label: 'CustomerID in Orders is a foreign key referencing the Customers primary key, and it can help enforce referential integrity.',
+            isCorrect: true,
+            explanation:
+              'The foreign key stores the referenced primary key and expresses the relationship between an order and its customer.',
+          },
+          {
+            id: 'quiz-3-1-q2-d',
+            label: 'OrderID is a foreign key because it points to an order, and CustomerID is a natural key because it is generated automatically.',
+            isCorrect: false,
+            explanation:
+              'OrderID is the primary key of Orders. A generated identifier is a surrogate key, not a natural key.',
+          },
+        ],
+        explanation:
+          'Primary keys identify rows, foreign keys connect rows across tables, and relationship cardinality determines whether a junction table is needed.',
+      },
+      {
+        id: 'quiz-3-1-q3',
+        prompt:
+          'Which statement correctly matches non-relational data models to how they represent and query data?',
+        options: [
+          {
+            id: 'quiz-3-1-q3-a',
+            label: 'Document stores keep JSON-like aggregates, key-value stores retrieve by key, wide-column stores use rows and flexible column families, and graph stores traverse nodes and edges.',
+            isCorrect: true,
+            explanation:
+              'This captures the core representation and access pattern of each introduced model without claiming one is universally better.',
+          },
+          {
+            id: 'quiz-3-1-q3-b',
+            label: 'All non-relational databases use the same flexible table structure and differ only in product name.',
+            isCorrect: false,
+            explanation:
+              'Non-relational databases are a diverse family with model-specific structures and query approaches.',
+          },
+          {
+            id: 'quiz-3-1-q3-c',
+            label: 'A graph store has no structure because relationships replace the need for nodes, fields and constraints.',
+            isCorrect: false,
+            explanation:
+              'Graph stores still have structure: nodes, edges and their types or properties are deliberate modeling choices.',
+          },
+          {
+            id: 'quiz-3-1-q3-d',
+            label: 'Key-value stores are designed for multi-table joins, while document stores cannot retrieve a document by identifier.',
+            isCorrect: false,
+            explanation:
+              'Key-value stores focus on lookup by key, and document stores commonly retrieve documents by identifier.',
+          },
+        ],
+        explanation:
+          'Model choice follows representation and access pattern: aggregate reads, key lookup, distributed wide-row access or relationship traversal.',
+      },
+      {
+        id: 'quiz-3-1-q4',
+        prompt:
+          'A team says, “NoSQL is always faster, and relational databases cannot scale horizontally.” Which response best reflects architectural trade-offs?',
+        options: [
+          {
+            id: 'quiz-3-1-q4-a',
+            label: 'Agree, because non-relational databases do not enforce schemas and therefore skip all correctness work.',
+            isCorrect: false,
+            explanation:
+              'Flexible storage does not remove validation or correctness work; it changes where that work is expressed.',
+          },
+          {
+            id: 'quiz-3-1-q4-b',
+            label: 'Agree, because joins always make relational databases slower than every document or key-value store.',
+            isCorrect: false,
+            explanation:
+              'Join cost depends on data, query design and workload. Document reads can also become costly when data must be assembled or duplicated.',
+          },
+          {
+            id: 'quiz-3-1-q4-c',
+            label: 'Disagree only about scaling, but accept that SQL databases cannot store JSON or semi-structured data.',
+            isCorrect: false,
+            explanation:
+              'Modern relational databases can store JSON and other semi-structured values as well as scale horizontally with the right design.',
+          },
+          {
+            id: 'quiz-3-1-q4-d',
+            label: 'Disagree: speed and scalability depend on workload, data model, consistency choices and operations; relational systems can scale, and NoSQL is not automatically faster.',
+            isCorrect: true,
+            explanation:
+              'Absolute claims are unreliable. Each family has strengths and costs that must be evaluated against a concrete workload.',
+          },
+        ],
+        explanation:
+          'Avoid absolute performance claims. Compare data shape, access patterns, consistency and operational reality instead.',
+      },
+      {
+        id: 'quiz-3-1-q5',
+        prompt:
+          'An e-commerce platform needs reliable orders and payments, highly variable product attributes, fast session lookup and rapidly growing browsing activity. Which initial reasoning is most defensible?',
+        options: [
+          {
+            id: 'quiz-3-1-q5-a',
+            label: 'Use a key-value store for everything because key lookup is faster than every other access pattern.',
+            isCorrect: false,
+            explanation:
+              'A key-value model cannot conveniently express the relationships and multi-record correctness needed by orders and payments.',
+          },
+          {
+            id: 'quiz-3-1-q5-b',
+            label: 'Use a graph database because every platform with user activity requires relationship traversal as its primary query.',
+            isCorrect: false,
+            explanation:
+              'Activity data alone does not make graph traversal the dominant pattern. The model must be justified by actual queries.',
+          },
+          {
+            id: 'quiz-3-1-q5-c',
+            label: 'Start with a relational store for orders and payments; consider a document model for variable catalog aggregates and a key-value store for sessions, while treating a simpler relational-plus-cache design as a valid alternative until needs are proven.',
+            isCorrect: true,
+            explanation:
+              'This reasoning starts from requirements, preserves correctness where it matters and adds models only for distinct workloads with named alternatives.',
+          },
+          {
+            id: 'quiz-3-1-q5-d',
+            label: 'Adopt as many database technologies as possible so the architecture demonstrates polyglot persistence.',
+            isCorrect: false,
+            explanation:
+              'Technology diversity is a cost, not a goal. Every extra store needs operational ownership and a concrete workload reason.',
+          },
+        ],
+        explanation:
+          'A defensible architecture matches each workload to a model, names trade-offs and avoids adding databases merely to demonstrate variety.',
+      },
+    ],
+  },
+  {
+    id: 'quiz-3-2',
+    title: 'SQL Databases: Final Assessment',
+    description:
+      'Apply schema design reasoning to keys, relationships, constraints, anomalies, functional dependencies and normal forms.',
+    passThreshold: 0.8,
+    standard: 'final',
+    questions: [
+      {
+        id: 'quiz-3-2-q1',
+        prompt:
+          'An orders table must support several products per order, retain the unit price charged at purchase time and prevent the same product from being added twice to one order. Which schema choice satisfies these requirements?',
+        options: [
+          {
+            id: 'quiz-3-2-q1-a',
+            label: 'Keep ProductIDs and ProductNames as semicolon-separated columns in Orders, with one row per order.',
+            isCorrect: false,
+            explanation:
+              'A list inside one column is a repeating group, cannot be constrained by a foreign key and makes duplicate detection and joins unreliable.',
+          },
+          {
+            id: 'quiz-3-2-q1-b',
+            label: 'Create OrderItems with only ItemID, OrderID, ProductID and Quantity, relying on the surrogate key for uniqueness.',
+            isCorrect: false,
+            explanation:
+              'A surrogate key identifies rows but does not stop the same product from appearing twice on one order. A UNIQUE rule on (OrderID, ProductID) is still needed.',
+          },
+          {
+            id: 'quiz-3-2-q1-c',
+            label: 'Create OrderItems with primary key (OrderID, ProductID), foreign keys to Orders and Products, Quantity and a UnitPrice column copied from the product at purchase time.',
+            isCorrect: true,
+            explanation:
+              'The composite key allows many products per order while preventing duplicates, the foreign keys enforce valid references, and UnitPrice preserves the historical charged price.',
+          },
+          {
+            id: 'quiz-3-2-q1-d',
+            label: 'Store customer name, product name and current product price directly in Orders and omit Products and OrderItems.',
+            isCorrect: false,
+            explanation:
+              'This repeats customer and product facts, loses stable product identity and uses the current price rather than the historical charged price.',
+          },
+        ],
+        explanation:
+          'A one-to-many relationship from Orders to OrderItems plus a uniqueness rule on the product pair models the workflow correctly. Historical price belongs on the order line.',
+      },
+      {
+        id: 'quiz-3-2-q2',
+        prompt:
+          'A university allows team teaching: one course can have many instructors and one instructor can teach many courses. Instructor profile details are optional and rarely read. Which modeling choice is defensible?',
+        options: [
+          {
+            id: 'quiz-3-2-q2-a',
+            label: 'Put InstructorID in Courses because one instructor can teach many courses.',
+            isCorrect: false,
+            explanation:
+              'This models only one instructor per course and contradicts the team-teaching rule. The many-to-many direction is not represented.',
+          },
+          {
+            id: 'quiz-3-2-q2-b',
+            label: 'Store InstructorIDs as a comma-separated list in Courses.InstructorIDs.',
+            isCorrect: false,
+            explanation:
+              'A list in one column cannot be checked by a foreign key and makes queries and updates for one instructor awkward.',
+          },
+          {
+            id: 'quiz-3-2-q2-c',
+            label: 'Use CourseInstructors(CourseID, InstructorID) with a composite key and foreign keys, and keep optional profile details in InstructorProfiles keyed by a unique foreign key to Instructors.',
+            isCorrect: true,
+            explanation:
+              'The junction table represents team teaching correctly, while a unique foreign key enforces the optional one-to-one profile relationship.',
+          },
+          {
+            id: 'quiz-3-2-q2-d',
+            label: 'Put CourseID in Instructors and add all profile columns to every course row.',
+            isCorrect: false,
+            explanation:
+              'This reverses the many-to-many relationship and repeats instructor and profile details in course rows, creating update anomalies.',
+          },
+        ],
+        explanation:
+          'Many-to-many needs a junction table. Optional profile data can earn a separate table when it has a different access pattern, lifecycle or security boundary.',
+      },
+      {
+        id: 'quiz-3-2-q3',
+        prompt:
+          'An order must reference an existing customer, have a non-negative total, start with status Pending when omitted and preserve order history when a customer record is removed. Which constraint set fits?',
+        options: [
+          {
+            id: 'quiz-3-2-q3-a',
+            label: 'CustomerID NULL with ON DELETE CASCADE, CHECK (Total >= 0), UNIQUE (Email) and DEFAULT status Pending.',
+            isCorrect: false,
+            explanation:
+              'A null customer breaks required ownership, and cascade can delete order history that must be preserved.',
+          },
+          {
+            id: 'quiz-3-2-q3-b',
+            label: 'CustomerID NOT NULL with a foreign key using ON DELETE NO ACTION, CHECK (Total >= 0), UNIQUE (Email), DEFAULT status Pending and CHECK on allowed statuses.',
+            isCorrect: true,
+            explanation:
+              'The foreign key requires a real customer, NO ACTION protects history, the check protects the amount, UNIQUE protects email identity and the default plus check control status.',
+          },
+          {
+            id: 'quiz-3-2-q3-c',
+            label: 'Leave validation entirely to the application so the database stays flexible.',
+            isCorrect: false,
+            explanation:
+              'Application validation helps users but cannot protect the data from imports, scripts or other services that write directly.',
+          },
+          {
+            id: 'quiz-3-2-q3-d',
+            label: 'Use FLOAT for Total, allow any status text and add a UNIQUE rule on Orders.OrderDate.',
+            isCorrect: false,
+            explanation:
+              'FLOAT is unsuitable for exact money, unconstrained status permits invalid values and order dates are not a unique business identifier.',
+          },
+        ],
+        explanation:
+          'Constraints belong in the database for invariants that every writer must obey. Delete behavior must reflect business history rather than convenience.',
+      },
+      {
+        id: 'quiz-3-2-q4',
+        prompt:
+          'A table Enrollment(StudentID, StudentName, CourseID, CourseTitle, Grade) has composite key (StudentID, CourseID). Which dependency and decomposition analysis is correct?',
+        options: [
+          {
+            id: 'quiz-3-2-q4-a',
+            label: 'Every non-key attribute depends on the whole key, so no decomposition is needed.',
+            isCorrect: false,
+            explanation:
+              'StudentName depends on StudentID alone and CourseTitle on CourseID alone. These are partial dependencies, so the table is not in 2NF.',
+          },
+          {
+            id: 'quiz-3-2-q4-b',
+            label: 'StudentID determines StudentName and CourseID determines CourseTitle, both partially; (StudentID, CourseID) determines Grade fully. Split into Students, Courses and Enrollments.',
+            isCorrect: true,
+            explanation:
+              'This identifies full and partial dependencies from business rules and moves each fact to the entity that owns it.',
+          },
+          {
+            id: 'quiz-3-2-q4-c',
+            label: 'Grade determines StudentID and CourseID because grades are unique in the sample data.',
+            isCorrect: false,
+            explanation:
+              'Functional dependencies come from business rules, not observed sample values. Many students can share the same grade.',
+          },
+          {
+            id: 'quiz-3-2-q4-d',
+            label: 'The main violation is that Grade is transitively dependent on StudentName.',
+            isCorrect: false,
+            explanation:
+              'Grade needs the whole enrollment key. The clear violations here are partial dependencies on StudentID and CourseID.',
+          },
+        ],
+        explanation:
+          'Partial dependencies on part of a composite key are resolved in 2NF by separating student, course and enrollment facts.',
+      },
+      {
+        id: 'quiz-3-2-q5',
+        prompt:
+          'A table OrderSnapshot has OrderID, CustomerID, CustomerCity, ProductIDs containing several IDs, ProductNames and Quantity. Which normalization sequence is correct?',
+        options: [
+          {
+            id: 'quiz-3-2-q5-a',
+            label: 'It is already in 3NF because every column is a single string or number.',
+            isCorrect: false,
+            explanation:
+              'A column containing several product IDs is a repeating group, so the table is not even in 1NF.',
+          },
+          {
+            id: 'quiz-3-2-q5-b',
+            label: 'Move CustomerCity into Customers to fix 1NF, then remove ProductIDs to fix 3NF.',
+            isCorrect: false,
+            explanation:
+              'The order of the steps is reversed. Repeating groups are a 1NF issue; the transitive dependency through CustomerID is a 3NF issue.',
+          },
+          {
+            id: 'quiz-3-2-q5-c',
+            label: 'Create one order-line row per product for 1NF, separate facts that depend on only part of a composite key for 2NF, and move CustomerCity to Customers because OrderID leads to CustomerID then CustomerCity for 3NF.',
+            isCorrect: true,
+            explanation:
+              'This applies each normal form to the correct defect and leaves Orders with CustomerID as a foreign key instead of repeated customer facts.',
+          },
+          {
+            id: 'quiz-3-2-q5-d',
+            label: 'Keep the snapshot and add more copies of CustomerCity in each order line so reporting never needs a join.',
+            isCorrect: false,
+            explanation:
+              'That is unmanaged denormalization: it multiplies the same current fact and creates update anomalies without a measured reason or consistency owner.',
+          },
+        ],
+        explanation:
+          'Normalization follows a sequence: atomic rows, full-key dependencies, then no transitive dependencies among non-key attributes.',
+      },
+    ],
+  },
 ]

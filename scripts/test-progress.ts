@@ -44,7 +44,7 @@ test('initial progress is empty and never fabricated', () => {
 
   const overall = service.getOverallProgress()
   assert.equal(overall.totalLessons, 67)
-  assert.equal(overall.publishedLessons, 13)
+  assert.equal(overall.publishedLessons, 14)
   assert.equal(overall.completedLessons, 0)
   assert.equal(overall.inProgressLessons, 0)
   assert.equal(overall.completionPercent, 0)
@@ -551,6 +551,38 @@ test('thirteenth published lesson is tracked independently of the earlier lesson
   assert.equal(service.getLessonProgress('lesson-2-7')?.status, 'completed')
   assert.equal(service.getLessonProgress('lesson-2-6'), undefined)
   assert.equal(service.getLessonProgress('lesson-2-5'), undefined)
+})
+
+test('fourteenth published lesson is tracked independently of the earlier lessons', () => {
+  const { service } = makeService()
+  service.startLesson('lesson-3-1')
+
+  assert.equal(service.getLessonProgress('lesson-3-1')?.status, 'in_progress')
+  assert.equal(service.getLessonProgress('lesson-1-1'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-6'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-7'), undefined)
+  assert.equal(service.getLessonProgress('lesson-3-2'), undefined)
+  assert.deepEqual(service.getState().recentLessonIds, ['lesson-3-1'])
+
+  service.saveQuizAttempt({
+    quizId: 'quiz-3-1',
+    lessonId: 'lesson-3-1',
+    score: 80,
+    correctAnswers: 4,
+    totalQuestions: 5,
+    answeredQuestions: 5,
+    passed: true,
+    durationSeconds: 130,
+  })
+  assert.equal(service.getLessonProgress('lesson-3-1')?.status, 'in_progress')
+  assert.equal(service.getQuizProgress('quiz-3-1')?.passed, true)
+  assert.equal(service.getBestQuizScore('quiz-3-1'), 80)
+  assert.equal(service.getQuizProgress('quiz-2-7'), undefined)
+
+  service.completeLesson('lesson-3-1')
+  assert.equal(service.getLessonProgress('lesson-3-1')?.status, 'completed')
+  assert.equal(service.getLessonProgress('lesson-2-7'), undefined)
+  assert.equal(service.getLessonProgress('lesson-2-6'), undefined)
 })
 
 test('invalid lesson and quiz ids never create progress records', () => {

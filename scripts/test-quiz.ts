@@ -45,11 +45,11 @@ const q2Correct = correctOptionId(q2)
 const q1Incorrect = incorrectOptionId(q1)
 const q2Incorrect = incorrectOptionId(q2)
 
-test('all thirteen published quizzes are preserved and structurally valid under the final standard', () => {
-  assert.equal(quizzes.length, 13)
+test('all fourteen published quizzes are preserved and structurally valid under the final standard', () => {
+  assert.equal(quizzes.length, 14)
   assert.deepEqual(
     quizzes.map((quiz) => quiz.id),
-    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7'],
+    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7', 'quiz-3-1'],
   )
   assert.equal(canonicalQuiz.id, 'quiz-1-1')
   assert.equal(canonicalQuiz.title, 'What is System Design? — knowledge check')
@@ -1011,6 +1011,94 @@ test('thirteenth lesson quiz resolves, scores and records progress independently
   assert.equal(service.getQuizProgress('quiz-2-7')?.lessonId, 'lesson-2-7')
   assert.equal(service.getQuizProgress('quiz-2-6'), undefined)
   assert.equal(service.getLessonProgress('lesson-2-7')?.status, 'in_progress')
+})
+
+test('fourteenth lesson quiz resolves, scores and records progress independently', () => {
+  const quiz = getQuizById('quiz-3-1')
+  const lesson = getLessonBySlug('relational-vs-nosql-models')
+  assert.ok(quiz && lesson)
+  assert.equal(quiz.title, 'Database Fundamentals: Final Assessment')
+  assert.equal(quiz.standard, 'final')
+  assert.equal(quiz.passThreshold, 0.8)
+  assert.equal(validateQuizStructure(quiz).valid, true)
+  assert.deepEqual(checkQuizStandard(quiz), [])
+
+  const resolved = resolvePlayableQuiz(lesson)
+  assert.ok(resolved)
+  assert.equal(resolved.valid, true)
+  assert.deepEqual(resolved.issues, [])
+  assert.equal(resolved.lessonId, 'lesson-3-1')
+  assert.equal(resolved.quiz.id, 'quiz-3-1')
+
+  assert.deepEqual(
+    quiz.questions.map((question) => question.id),
+    Array.from({ length: 5 }, (_, index) => `quiz-3-1-q${index + 1}`),
+  )
+  assert.deepEqual(
+    quiz.questions.map((question) => question.options.length),
+    [4, 4, 4, 4, 4],
+  )
+  assert.deepEqual(
+    quiz.questions.map((question) => question.options.findIndex((option) => option.isCorrect)),
+    [1, 2, 0, 3, 2],
+  )
+  assert.ok(quiz.questions.every((question) => question.options.filter((option) => option.isCorrect).length === 1))
+  assert.ok(quiz.questions.every((question) => question.options.every((option) => (option.explanation ?? '').trim().length > 0)))
+  assert.ok(quiz.questions.every((question) => (question.explanation ?? '').trim().length > 0))
+
+  const prepared = quiz.questions.map((question) =>
+    question.options.map((option) => ({ id: option.id, label: option.label })),
+  )
+  assert.equal(JSON.stringify(prepared).includes('isCorrect'), false)
+  assert.equal(JSON.stringify(prepared).includes('explanation'), false)
+
+  const answersAt = (indices: readonly number[]): Record<string, string> =>
+    Object.fromEntries(
+      quiz.questions.map((question, index) => [
+        question.id,
+        question.options[indices[index] ?? 0]?.id ?? '',
+      ]),
+    )
+
+  const result = calculateQuizResult(quiz, answersAt([1, 2, 0, 3, 2]), { lessonId: 'lesson-3-1' })
+  assert.equal(result.score, 100)
+  assert.equal(result.correctAnswers, 5)
+  assert.equal(result.passed, true)
+  assert.equal(result.questionResults.length, 5)
+  assert.ok(result.questionResults.every((questionResult) => (questionResult.explanation ?? '').trim().length > 0))
+  assert.ok(result.questionResults.every((questionResult) => (questionResult.selectedExplanation ?? '').trim().length > 0))
+
+  const boundary = calculateQuizResult(quiz, answersAt([1, 2, 0, 3, 0]), { lessonId: 'lesson-3-1' })
+  assert.equal(boundary.correctAnswers, 4)
+  assert.equal(boundary.score, 80)
+  assert.equal(boundary.passed, true)
+  assert.equal(boundary.unansweredQuestions, 0)
+
+  const failed = calculateQuizResult(quiz, answersAt([0, 1, 1, 0, 0]), { lessonId: 'lesson-3-1' })
+  assert.equal(failed.correctAnswers, 0)
+  assert.equal(failed.score, 0)
+  assert.equal(failed.passed, false)
+  assert.equal(failed.passThreshold, 0.8)
+
+  const storage = createMemoryProgressStorage()
+  const service = createProgressService({ storage })
+  const attempt = service.saveQuizAttempt({
+    quizId: result.quizId,
+    lessonId: result.lessonId,
+    score: result.score,
+    correctAnswers: result.correctAnswers,
+    totalQuestions: result.totalQuestions,
+    answeredQuestions: result.totalQuestions - result.unansweredQuestions,
+    passed: result.passed,
+    completedAt: result.completedAt,
+    durationSeconds: 130,
+  })
+
+  assert.ok(attempt)
+  assert.equal(service.getBestQuizScore('quiz-3-1'), 100)
+  assert.equal(service.getQuizProgress('quiz-3-1')?.lessonId, 'lesson-3-1')
+  assert.equal(service.getQuizProgress('quiz-2-7'), undefined)
+  assert.equal(service.getLessonProgress('lesson-3-1')?.status, 'in_progress')
 })
 
 test('question data is prepared for rendering without revealing correctness', () => {

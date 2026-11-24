@@ -1314,7 +1314,209 @@ const reverseProxy: Lesson = {
   summaryId: 'summary-2-7',
 }
 
-/** One lesson per approved module topic; Domain 01 through 1.6 and Domain 02 through 2.7 have content. */
+const databaseFundamentals: Lesson = {
+  id: 'lesson-3-1',
+  moduleId: 'module-3-1',
+  slug: 'relational-vs-nosql-models',
+  number: 1,
+  title: 'Database Fundamentals',
+  description:
+    'Explain how databases persist and organize application data, distinguish relational tables, keys and relationships from major non-relational models, and choose a storage approach from data shape, access patterns, consistency and scalability requirements.',
+  estimatedMinutes: 80,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-3-1-1',
+      text: 'Explain what a database is and why applications need persistent data storage beyond temporary application memory.',
+    },
+    {
+      id: 'objective-3-1-2',
+      text: 'Distinguish a database, a database management system and a data model using a concrete application example.',
+    },
+    {
+      id: 'objective-3-1-3',
+      text: 'Describe the relational model by naming tables, rows, columns, schemas and data types in an e-commerce example.',
+    },
+    {
+      id: 'objective-3-1-4',
+      text: 'Identify primary keys, candidate keys, natural keys, surrogate keys and foreign keys, and explain the role of each.',
+    },
+    {
+      id: 'objective-3-1-5',
+      text: 'Explain one-to-one, one-to-many and many-to-many relationships, including how a junction table represents the last one.',
+    },
+    {
+      id: 'objective-3-1-6',
+      text: 'Describe non-relational databases as a diverse family with flexible or model-specific structures and access patterns.',
+    },
+    {
+      id: 'objective-3-1-7',
+      text: 'Identify document, key-value, wide-column and graph databases and state how each represents and queries data.',
+    },
+    {
+      id: 'objective-3-1-8',
+      text: 'Compare structured, semi-structured and flexible data representations without equating flexibility with absence of design.',
+    },
+    {
+      id: 'objective-3-1-9',
+      text: 'Explain how access patterns, relationships, transactions and consistency expectations influence database selection.',
+    },
+    {
+      id: 'objective-3-1-10',
+      text: 'State one strength and one trade-off for relational and non-relational approaches without absolute performance claims.',
+    },
+    {
+      id: 'objective-3-1-11',
+      text: 'Evaluate a database choice for a scenario by considering data shape, query requirements, consistency, scaling and operations.',
+    },
+    {
+      id: 'objective-3-1-12',
+      text: 'Justify an initial database architecture for an application and name a defensible alternative with its trade-offs.',
+    },
+  ],
+  sectionIds: [
+    'section-3-1-1',
+    'section-3-1-2',
+    'section-3-1-3',
+    'section-3-1-4',
+    'section-3-1-5',
+    'section-3-1-6',
+    'section-3-1-7',
+    'section-3-1-8',
+    'section-3-1-9',
+    'section-3-1-10',
+    'section-3-1-11',
+    'section-3-1-12',
+    'section-3-1-13',
+    'section-3-1-14',
+    'section-3-1-15',
+    'section-3-1-16',
+  ],
+  diagramIds: [
+    'diagram-3-1-database-management-fundamentals',
+    'diagram-3-1-relational-database-structure',
+    'diagram-3-1-relational-vs-document-models',
+    'diagram-3-1-major-non-relational-models',
+    'diagram-3-1-database-selection-decision-flow',
+  ],
+  codeExampleIds: [
+    'code-3-1-relational-tables-and-keys',
+    'code-3-1-querying-related-data',
+    'code-3-1-document-product-representation',
+  ],
+  comparisonIds: [
+    'comparison-3-1-relational-vs-non-relational',
+    'comparison-3-1-structured-vs-semi-structured',
+    'comparison-3-1-relational-vs-document',
+  ],
+  quizId: 'quiz-3-1',
+  practicalChallengeId: 'challenge-3-1',
+  summaryId: 'summary-3-1',
+}
+
+const sqlDatabases: Lesson = {
+  id: 'lesson-3-2',
+  moduleId: 'module-3-2',
+  slug: 'schema-design-for-access-patterns',
+  number: 1,
+  title: 'SQL Databases',
+  description:
+    'Design relational schemas with appropriate tables, data types, keys, relationships and constraints, then use functional dependencies and normalization to reduce redundancy while understanding deliberate denormalization trade-offs.',
+  estimatedMinutes: 90,
+  order: 1,
+  status: 'published',
+  learningObjectives: [
+    {
+      id: 'objective-3-2-1',
+      text: 'Explain how relational database tables represent entities and their attributes.',
+    },
+    {
+      id: 'objective-3-2-2',
+      text: 'Design tables with appropriate columns and SQL Server-compatible data types for a stated business requirement.',
+    },
+    {
+      id: 'objective-3-2-3',
+      text: 'Identify candidate keys and select a stable primary key while distinguishing natural, surrogate and composite keys.',
+    },
+    {
+      id: 'objective-3-2-4',
+      text: 'Explain foreign keys and referential integrity, including the roles of referenced parent and referencing child records.',
+    },
+    {
+      id: 'objective-3-2-5',
+      text: 'Model one-to-one, one-to-many and many-to-many relationships with correct foreign key or junction table placement.',
+    },
+    {
+      id: 'objective-3-2-6',
+      text: 'Select appropriate constraints, including NOT NULL, UNIQUE, CHECK, DEFAULT and foreign keys, to protect important domain invariants.',
+    },
+    {
+      id: 'objective-3-2-7',
+      text: 'Explain the behavior of NOT NULL, UNIQUE, CHECK, DEFAULT and foreign key constraints using realistic SQL Server examples.',
+    },
+    {
+      id: 'objective-3-2-8',
+      text: 'Identify data redundancy and explain how accidental duplication can produce inconsistent information.',
+    },
+    {
+      id: 'objective-3-2-9',
+      text: 'Describe insertion, update and deletion anomalies using one poorly designed relational table.',
+    },
+    {
+      id: 'objective-3-2-10',
+      text: 'Explain the purpose of First, Second and Third Normal Forms and the kind of dependency each form addresses.',
+    },
+    {
+      id: 'objective-3-2-11',
+      text: 'Normalize a simple relational schema by identifying functional dependencies and decomposing tables into 1NF, 2NF and 3NF.',
+    },
+    {
+      id: 'objective-3-2-12',
+      text: 'Evaluate normalization and denormalization trade-offs using data integrity, access patterns and operational complexity.',
+    },
+  ],
+  sectionIds: [
+    'section-3-2-1',
+    'section-3-2-2',
+    'section-3-2-3',
+    'section-3-2-4',
+    'section-3-2-5',
+    'section-3-2-6',
+    'section-3-2-7',
+    'section-3-2-8',
+    'section-3-2-9',
+    'section-3-2-10',
+    'section-3-2-11',
+    'section-3-2-12',
+    'section-3-2-13',
+    'section-3-2-14',
+    'section-3-2-15',
+    'section-3-2-16',
+  ],
+  diagramIds: [
+    'diagram-3-2-relational-building-blocks',
+    'diagram-3-2-relationship-types',
+    'diagram-3-2-constraints-referential-integrity',
+    'diagram-3-2-normalization-before-after',
+    'diagram-3-2-1nf-2nf-3nf-progression',
+  ],
+  codeExampleIds: [
+    'code-3-2-creating-tables-and-relationships',
+    'code-3-2-many-to-many-and-referential-integrity',
+    'code-3-2-normalization-in-practice',
+  ],
+  comparisonIds: [
+    'comparison-3-2-primary-key-vs-foreign-key',
+    'comparison-3-2-1nf-vs-2nf-vs-3nf',
+    'comparison-3-2-normalization-vs-denormalization',
+  ],
+  quizId: 'quiz-3-2',
+  practicalChallengeId: 'challenge-3-2',
+  summaryId: 'summary-3-2',
+}
+
+/** One lesson per approved module topic; Domain 01 through 1.6, Domain 02 through 2.7 and Domain 03 through 3.2 have content. */
 export const lessons: Lesson[] = [
   whatIsSystemDesign,
   clientServerArchitecture,
@@ -1329,6 +1531,8 @@ export const lessons: Lesson[] = [
   realTimeCommunication,
   loadBalancing,
   reverseProxy,
+  databaseFundamentals,
+  sqlDatabases,
 
   // Domain 01 — System Design Fundamentals
 
@@ -1337,8 +1541,6 @@ export const lessons: Lesson[] = [
   // Domain 02 — Networking & Communication
 
   // Domain 03 — Database Design & Data Management
-  plannedLesson('module-3-1', 'relational-vs-nosql-models', 'Relational vs NoSQL Models', 'Compare storage models and choose one that fits the access pattern.'),
-  plannedLesson('module-3-2', 'schema-design-for-access-patterns', 'Schema Design for Access Patterns', 'Design schemas around the queries the system actually runs.'),
   plannedLesson('module-3-3', 'indexes-and-query-performance', 'Indexes and Query Performance', 'Use indexes deliberately and understand their cost.'),
   plannedLesson('module-3-4', 'transactions-and-consistency-boundaries', 'Transactions and Consistency Boundaries', 'Place transaction boundaries where correctness requires them.'),
   plannedLesson('module-3-5', 'replication-and-read-paths', 'Replication and Read Paths', 'Use replicas to serve reads without losing correctness guarantees.'),

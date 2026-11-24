@@ -106,7 +106,7 @@ test('module and lesson counts agree for every domain', () => {
   }
 })
 
-test('thirteen published lessons remain and all other lessons are planned', () => {
+test('fourteen published lessons remain and all other lessons are planned', () => {
   const published = lessons.filter((lesson) => lesson.status === 'published')
   const planned = lessons.filter((lesson) => lesson.status === 'planned')
   assert.equal(published.length, BLUEPRINT_PUBLISHED_LESSONS)
@@ -125,6 +125,7 @@ test('thirteen published lessons remain and all other lessons are planned', () =
     'lesson-2-5',
     'lesson-2-6',
     'lesson-2-7',
+    'lesson-3-1',
   ])
   assert.ok(planned.every((lesson) => lesson.sectionIds.length === 0 && lesson.quizId === null))
 })
@@ -144,7 +145,7 @@ test('getModuleBySlug resolves approved modules', () => {
   assert.equal(getModuleBySlug(undefined), undefined)
 })
 
-test('getLessonBySlug resolves all twelve published lessons', () => {
+test('getLessonBySlug resolves all fourteen published lessons', () => {
   const firstLesson = getLessonBySlug('what-is-system-design')
   assert.equal(firstLesson?.id, 'lesson-1-1')
   assert.equal(firstLesson?.moduleId, 'module-1-1')
@@ -225,6 +226,20 @@ test('getLessonBySlug resolves all twelve published lessons', () => {
   assert.equal(twelfthLesson?.slug, 'dns-and-name-resolution')
   assert.equal(twelfthLesson?.status, 'published')
   assert.equal(twelfthLesson?.title, 'Load Balancing')
+
+  const thirteenthLesson = getLessonBySlug('streaming-and-long-lived-connections')
+  assert.equal(thirteenthLesson?.id, 'lesson-2-7')
+  assert.equal(thirteenthLesson?.moduleId, 'module-2-7')
+  assert.equal(thirteenthLesson?.slug, 'streaming-and-long-lived-connections')
+  assert.equal(thirteenthLesson?.status, 'published')
+  assert.equal(thirteenthLesson?.title, 'Reverse Proxy')
+
+  const fourteenthLesson = getLessonBySlug('relational-vs-nosql-models')
+  assert.equal(fourteenthLesson?.id, 'lesson-3-1')
+  assert.equal(fourteenthLesson?.moduleId, 'module-3-1')
+  assert.equal(fourteenthLesson?.slug, 'relational-vs-nosql-models')
+  assert.equal(fourteenthLesson?.status, 'published')
+  assert.equal(fourteenthLesson?.title, 'Database Fundamentals')
   assert.equal(getLessonBySlug('missing-lesson'), undefined)
   assert.equal(getLessonBySlug(undefined), undefined)
 })
@@ -1211,14 +1226,14 @@ test('eighth lesson quiz, challenge and summary are complete without a simulatio
   assert.equal(getSimulationBySlug(simulationSlug), undefined)
 })
 
-test('content stores contain exactly the thirteen published lessons without mixing their blocks', () => {
-  assert.equal(lessonSections.length, 194)
-  assert.equal(diagrams.length, 59)
-  assert.equal(codeExamples.length, 38)
-  assert.equal(comparisons.length, 35)
-  assert.equal(quizzes.length, 13)
-  assert.equal(practicalChallenges.length, 13)
-  assert.equal(lessonSummaries.length, 13)
+test('content stores contain exactly the fourteen published lessons without mixing their blocks', () => {
+  assert.equal(lessonSections.length, 210)
+  assert.equal(diagrams.length, 64)
+  assert.equal(codeExamples.length, 41)
+  assert.equal(comparisons.length, 38)
+  assert.equal(quizzes.length, 14)
+  assert.equal(practicalChallenges.length, 14)
+  assert.equal(lessonSummaries.length, 14)
 
   const first = getLessonBySlug('what-is-system-design')
   const second = getLessonBySlug('requirements-and-constraints')
@@ -2045,10 +2060,10 @@ test('sixth lesson code examples and comparisons are complete and referenced cor
 })
 
 test('published quizzes target the final standard with five four-option questions', () => {
-  assert.equal(quizzes.length, 13)
+  assert.equal(quizzes.length, 14)
   assert.deepEqual(
     quizzes.map((quiz) => quiz.id),
-    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7'],
+    ['quiz-1-1', 'quiz-1-2', 'quiz-1-3', 'quiz-1-4', 'quiz-1-5', 'quiz-1-6', 'quiz-2-1', 'quiz-2-2', 'quiz-2-3', 'quiz-2-4', 'quiz-2-5', 'quiz-2-6', 'quiz-2-7', 'quiz-3-1'],
   )
   for (const quiz of quizzes) {
     assert.equal(quiz.standard, 'final')
@@ -2261,8 +2276,8 @@ test('eighth lesson quiz resolves back to the HTTP Deep Dive lesson', () => {
 test('first lesson challenge, summary and simulation link are complete and resolvable', () => {
   const lesson = getLessonBySlug('what-is-system-design')
   assert.ok(lesson)
-  assert.equal(practicalChallenges.length, 13)
-  assert.equal(lessonSummaries.length, 13)
+  assert.equal(practicalChallenges.length, 14)
+  assert.equal(lessonSummaries.length, 14)
 
   const challenge = practicalChallenges.find((candidate) => candidate.id === lesson.practicalChallengeId)
   assert.ok(challenge)
@@ -3559,7 +3574,193 @@ test('Module 2.7 publishes the complete Reverse Proxy lesson with preserved cano
 
   assert.equal(lesson.metadata?.simulationSlug, undefined)
   assert.equal(getSimulationBySlug(lesson.metadata?.simulationSlug), undefined)
-  assert.equal(getLessonBySlug('relational-vs-nosql-models')?.status, 'planned')
+  assert.equal(getLessonBySlug('relational-vs-nosql-models')?.status, 'published')
+})
+
+test('Module 3.1 publishes the complete Database Fundamentals lesson with preserved canonical identity', () => {
+  const lesson = getLessonBySlug('relational-vs-nosql-models')
+  assert.ok(lesson)
+  assert.equal(lesson.id, 'lesson-3-1')
+  assert.equal(lesson.moduleId, 'module-3-1')
+  assert.equal(lesson.slug, 'relational-vs-nosql-models')
+  assert.equal(lesson.title, 'Database Fundamentals')
+  assert.equal(lesson.status, 'published')
+  assert.equal(lesson.order, 1)
+  assert.equal(lesson.number, 1)
+  assert.equal(lesson.learningObjectives.length, 12)
+  assert.equal(new Set(lesson.learningObjectives.map((objective) => objective.id)).size, 12)
+  assert.ok(lesson.learningObjectives.every((objective) => objective.text.trim().length > 20))
+  assert.deepEqual(
+    getLessonsByModule('module-3-1').map((candidate) => candidate.id),
+    ['lesson-3-1'],
+  )
+
+  const content = getLessonContent(lesson.slug)
+  assert.ok(content)
+  const sections = content.sections
+  assert.deepEqual(
+    sections.map((section) => section.title),
+    [
+      'Introduction: Why Do Applications Need Databases?',
+      'What Is a Database?',
+      'Understanding Data Models',
+      'Relational Databases: The Core Idea',
+      'Tables, Keys, and Relationships',
+      'Querying Relational Data',
+      'Relational Database Strengths and Limitations',
+      'Non-Relational Databases: The Core Idea',
+      'Major Non-Relational Data Models',
+      'Document Databases in Practice',
+      'Structured, Semi-Structured, and Flexible Data',
+      'Choosing Between Relational and Non-Relational Databases',
+      'Polyglot Persistence: Using Multiple Database Models',
+      'Common Database Selection Mistakes',
+      'Real-World System Design Scenarios',
+      'Key Takeaways and Database Selection Framework',
+    ],
+  )
+  assert.deepEqual(
+    sections.map((section) => section.order),
+    Array.from({ length: 16 }, (_, index) => index + 1),
+  )
+  assert.ok(sections.every((section) => section.paragraphs.length > 0))
+  assert.ok(sections.every((section) => section.paragraphs.every((paragraph) => paragraph.trim().length > 0)))
+  assert.ok(sections.every((section) => section.keyPoints && section.keyPoints.length >= 3))
+  assert.equal(sections[0]?.kind, 'introduction')
+  assert.equal(sections[4]?.kind, 'process')
+  assert.equal(sections[4]?.steps?.length, 5)
+  assert.equal(sections[5]?.kind, 'process')
+  assert.equal(sections[5]?.steps?.length, 5)
+  assert.equal(sections[6]?.kind, 'tradeoffs')
+  assert.equal(sections[6]?.tradeoffs?.length, 5)
+  assert.equal(sections[8]?.kind, 'tradeoffs')
+  assert.equal(sections[8]?.tradeoffs?.length, 4)
+  assert.equal(sections[11]?.kind, 'process')
+  assert.equal(sections[11]?.steps?.length, 7)
+  assert.equal(sections[12]?.kind, 'tradeoffs')
+  assert.equal(sections[12]?.tradeoffs?.length, 4)
+  assert.equal(sections[13]?.kind, 'mistakes')
+  assert.equal(sections[13]?.commonMistakes?.length, 8)
+  assert.equal(sections[13]?.steps?.length, 5)
+  assert.equal(sections[14]?.kind, 'tradeoffs')
+  assert.equal(sections[14]?.tradeoffs?.length, 4)
+  assert.equal(sections[15]?.kind, 'process')
+  assert.equal(sections[15]?.steps?.length, 8)
+  assert.ok(sections[0]?.paragraphs.join(' ').includes('e-commerce platform'))
+  assert.ok(sections[0]?.paragraphs.join(' ').includes('users'))
+  assert.ok(sections[0]?.paragraphs.join(' ').includes('payments'))
+  assert.ok(sections[1]?.paragraphs.join(' ').includes('database management system'))
+  assert.ok(sections[3]?.paragraphs.join(' ').includes('OrderItems'))
+  assert.ok(sections[4]?.paragraphs.join(' ').includes('junction table'))
+  assert.ok(sections[7]?.paragraphs.join(' ').includes('does not mean no schema'))
+  assert.ok(sections[10]?.paragraphs.join(' ').includes('can also store JSON in a column'))
+  assert.ok(sections[12]?.paragraphs.join(' ').includes('Polyglot persistence'))
+  assert.ok(sections[15]?.keyPoints?.some((point) => point.includes('NoSQL is not automatically faster')))
+
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.id),
+    [
+      'diagram-3-1-database-management-fundamentals',
+      'diagram-3-1-relational-database-structure',
+      'diagram-3-1-relational-vs-document-models',
+      'diagram-3-1-major-non-relational-models',
+      'diagram-3-1-database-selection-decision-flow',
+    ],
+  )
+  assert.deepEqual(
+    content.diagrams.map((diagram) => diagram.layout),
+    ['flow', 'topology', 'comparison', 'comparison', 'flow'],
+  )
+  assert.ok(content.diagrams.every((diagram) => diagram.nodes.length >= 8 && diagram.edges.length >= 8))
+  assert.ok(
+    content.diagrams.every((diagram) =>
+      diagram.edges.every(
+        (edge) =>
+          diagram.nodes.some((node) => node.id === edge.source) &&
+          diagram.nodes.some((node) => node.id === edge.target),
+      ),
+    ),
+  )
+  assert.ok(content.diagrams[1]?.nodes.some((node) => node.label === 'OrderItems junction table'))
+  assert.ok(content.diagrams[3]?.nodes.some((node) => node.label === 'Graph model'))
+
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.id),
+    [
+      'code-3-1-relational-tables-and-keys',
+      'code-3-1-querying-related-data',
+      'code-3-1-document-product-representation',
+    ],
+  )
+  assert.deepEqual(
+    content.codeExamples.map((example) => example.language),
+    ['sql', 'sql', 'json'],
+  )
+  assert.ok(content.codeExamples.every((example) => example.code.split('\n').length <= 20))
+  assert.ok(content.codeExamples[0]?.code.includes('CustomerID INTEGER NOT NULL REFERENCES Customers(CustomerID)'))
+  assert.ok(content.codeExamples[0]?.code.includes('PRIMARY KEY (OrderID, ProductID)'))
+  assert.ok(content.codeExamples[1]?.code.includes('JOIN Customers AS c ON c.CustomerID = o.CustomerID'))
+  assert.ok(content.codeExamples[2]?.code.includes('"switchType": "Linear"'))
+  assert.doesNotThrow(() => JSON.parse(content.codeExamples[2]?.code ?? ''))
+
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.id),
+    [
+      'comparison-3-1-relational-vs-non-relational',
+      'comparison-3-1-structured-vs-semi-structured',
+      'comparison-3-1-relational-vs-document',
+    ],
+  )
+  assert.deepEqual(
+    content.comparisons.map((comparison) => comparison.rows.length),
+    [7, 7, 7],
+  )
+  assert.ok(content.comparisons.every((comparison) => comparison.columns.length === 2))
+  assert.ok(
+    content.comparisons.every((comparison) =>
+      comparison.rows.every((row) => comparison.columns.every((column) => (row.values[column.id] ?? '').length > 0)),
+    ),
+  )
+
+  const quiz = content.quiz
+  assert.ok(quiz)
+  assert.equal(quiz.id, 'quiz-3-1')
+  assert.equal(quiz.title, 'Database Fundamentals: Final Assessment')
+  assert.equal(quiz.standard, 'final')
+  assert.equal(quiz.passThreshold, 0.8)
+  assert.deepEqual(checkQuizStandard(quiz), [])
+  assert.equal(quiz.questions.length, 5)
+  assert.ok(quiz.questions.every((question) => question.options.length === 4))
+  assert.ok(quiz.questions.every((question) => question.options.filter((option) => option.isCorrect).length === 1))
+  assert.ok(quiz.questions.every((question) => question.options.every((option) => (option.explanation ?? '').trim().length > 0)))
+  assert.ok(quiz.questions.every((question) => (question.explanation ?? '').trim().length > 0))
+  assert.deepEqual(
+    quiz.questions.map((question) => question.options.findIndex((option) => option.isCorrect)),
+    [1, 2, 0, 3, 2],
+  )
+
+  const challenge = content.practicalChallenge
+  assert.ok(challenge)
+  assert.equal(challenge.id, 'challenge-3-1')
+  assert.equal(challenge.title, 'Choose a Database Architecture for an E-Commerce Platform')
+  assert.ok(challenge.scenario.includes('Product browsing activity grows rapidly'))
+  assert.equal(challenge.requirements.length, 10)
+  assert.equal(challenge.constraints.length, 7)
+  assert.equal(challenge.deliverables.length, 7)
+  assert.equal(challenge.hints?.length, 12)
+  assert.ok(challenge.requirements.some((requirement) => requirement.includes('polyglot persistence')))
+  assert.ok(challenge.hints?.some((hint) => hint.includes('There is no single acceptable architecture')))
+
+  const summary = content.summary
+  assert.ok(summary)
+  assert.equal(summary.id, 'summary-3-1')
+  assert.ok(summary.overview.includes('requirements-driven architectural decision'))
+  assert.equal(summary.keyTakeaways.length, 20)
+  assert.ok(summary.nextSteps && summary.nextSteps.length >= 2)
+
+  assert.equal(lesson.metadata?.simulationSlug, undefined)
+  assert.equal(getSimulationBySlug(lesson.metadata?.simulationSlug), undefined)
+  assert.equal(getLessonBySlug('schema-design-for-access-patterns')?.status, 'planned')
 })
 
 test('curriculum validation reports no issues', () => {
